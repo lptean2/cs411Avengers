@@ -17,15 +17,21 @@ function App() {
 
         getData().then();
     }, []);
-
     return (
         <div className="App">
             <div>Database Items: </div>
-            <div>
+            <table>
+                <tr>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                </tr>
                 {items.map(item => (
-                    <div key={item.ID}>{item.Name}</div>
+                    <tr key={item.ID} className={"item"}>
+                        <td className={"item_id"}>{item.ID}</td>
+                        <td className={"item_name"}>{item.Name}</td>
+                    </tr>
                 ))}
-            </div>
+            </table>
         </div>
     );
 }
