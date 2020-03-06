@@ -1,7 +1,7 @@
 import MySQLdb
 import json
 
-db = MySQLdb.connect("localhost","python","","cpidata" )
+db = MySQLdb.connect("localhost","avengers1_flask","password123","avengers1_cpi_sh" )
 
 class DbBase:
     def __init__(self, dict={}):

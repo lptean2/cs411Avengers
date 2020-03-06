@@ -63,5 +63,5 @@ price_urls    = [
     'https://download.bls.gov/pub/time.series/ap/ap.data.3.Food'
 ]
 
-for url in price_urls:
-    loadPrice(url)
+#for url in price_urls:
+#    loadPrice(url)
