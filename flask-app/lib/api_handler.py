@@ -51,14 +51,12 @@ def saveBasket(basket):
     db_basket = Basket.loadByID(basket['ID'])
     db_basket.Name = basket['Name']
     updated_basket = db_basket.save()
-    print updated_basket
     return updated_basket
 
 
 def createBasket(basket):
     obj_basket = Basket({'Name':basket['Name']})
     updated_basket = obj_basket.save()
-    print updated_basket
     return updated_basket
 
 
