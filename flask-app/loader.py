@@ -16,8 +16,17 @@ def addPrice(series_id, year, period, value):
 def loadPrice(price_url):
     data = urllib2.urlopen(price_url) # it's a file like object and works just like a file
     line_count = 0;
+
+    lines = [];
+
+    # Load into memory before running the sql to prevent timeouts
     for line in data: # files are iterable
         if (line_count > 0):
+            lines.append(line)
+
+        line_count = line_count + 1
+
+    for line in lines:
             terms = line.split("\t")
             addPrice(
                 terms[0].strip(),
@@ -26,7 +35,7 @@ def loadPrice(price_url):
                 terms[3].strip()
             )
 
-        line_count = line_count + 1
+
 
 
 # Load item data
@@ -63,5 +72,5 @@ price_urls    = [
     'https://download.bls.gov/pub/time.series/ap/ap.data.3.Food'
 ]
 
-#for url in price_urls:
-#    loadPrice(url)
+for url in price_urls:
+    loadPrice(url)

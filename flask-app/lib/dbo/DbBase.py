@@ -1,7 +1,20 @@
 import MySQLdb
 import json
+import os
 
-db = MySQLdb.connect("localhost","avengers1_flask","password123","avengers1_cpi_sh" )
+
+db_host = os.environ.get('FLASK_DB_HOST') or 'localhost'
+db_user = os.environ.get('FLASK_DB_USER') or 'avengers1_flask'
+db_pw = os.environ.get('FLASK_DB_PW') or 'password123'
+db_name = os.environ.get('FLASK_DB_NAME') or 'avengers1_cpi_sh'
+
+# Hack for the VMs where the user is setup with no password:
+# Check for the VM user (python) and the default password
+if ( db_user == 'python' and db_pw == 'password123'):
+    db_pw = ''
+
+db = MySQLdb.connect(db_host,db_user,db_pw,db_name )
+#db = MySQLdb.connect("localhost","python","","cpidata" )
 
 class DbBase:
     def __init__(self, dict={}):
@@ -36,10 +49,10 @@ class DbBase:
             " FROM " + cls.tableName();
 
         if (len(where_clauses)):
-            select_sql += " WHERE " + " AND ".join(where_clauses)
+            select_sql += ' WHERE ' + ' AND '.join(where_clauses)
 
-        print "Running sql: " + select_sql
-        print "binds: " + ",".join(binds)
+        print 'Running sql: ' + select_sql
+        print 'binds: ' + ','.join(binds)
 
         cursor.execute(
             select_sql,
@@ -69,20 +82,20 @@ class DbBase:
         for field in self.fields():
             inserts.append(field)
             insert_binds.append(str(getattr(self,field,'')))
-            insert_values.append("%s")
+            insert_values.append('%s')
 
             if (field not in self.primaryKey()):
-                updates.append(field + "=%s")
+                updates.append(field + '=%s')
                 update_binds.append(str(getattr(self,field,'')))
 
 
         update_statement = 'INSERT INTO ' + self.tableName() + \
-            " (" + ",".join(inserts) + ")" + \
-            " VALUES (" + ",".join(insert_values) + ")" + \
-            " ON DUPLICATE KEY UPDATE  " + ",".join(updates)
+            ' (' + ','.join(inserts) + ')' + \
+            ' VALUES (' + ','.join(insert_values) + ')' + \
+            ' ON DUPLICATE KEY UPDATE  ' + ','.join(updates)
 
-        print "Running sql: " + update_statement
-        print "binds: " + ",".join(insert_binds + update_binds)
+        print 'Running sql: ' + update_statement
+        print 'binds: ' + ','.join(insert_binds + update_binds)
 
         cursor = db.cursor()
         cursor.execute(
@@ -90,7 +103,44 @@ class DbBase:
             insert_binds + update_binds
             )
 
+        # If it is a new row, lastrowid will be populated, if not, use the ID
+        new_id = cursor.lastrowid
         db.commit()
+
+        # If we are creating the DB row, load into an object
+        if (new_id):
+            return self.loadByID(new_id)
+
+        return self.reload()
+
+
+    def reload(self):
+        pks = {}
+
+        for key in self.primaryKey():
+            print key
+            pks[key] = getattr(self,key)
+
+        records = self.loadByFields(pks)
+        return records[0]
+
+
+    def delete(self):
+        delete_wheres = []
+        delete_values = []
+
+        for field in self.primaryKey():
+            delete_wheres.append( field + ' = %s' )
+            delete_values.append( getattr(self, field) )
+
+        delete_statement = 'DELETE FROM ' + self.tableName() + \
+            ' WHERE ' + ' AND '.join(delete_wheres)
+
+        cursor = db.cursor()
+        cursor.execute(
+            delete_statement,
+            delete_values
+            )
 
 
     def asDict(self):
