@@ -38,15 +38,15 @@ class DbBase:
 
         # Loop over the incoming fields
         binds = [];
-        where_clauses = [];
+        where_clauses = cls.selectWheres();
         for field_name in fields:
             binds.append( str(fields[field_name]) )
             where_clauses.append(field_name + '=%s')
 
         # Build the select
-        select_fields = ', ' . join(cls.fields())
+        select_fields = ', '.join(cls.selectFields())
         select_sql = "SELECT " + select_fields + \
-            " FROM " + cls.tableName();
+            " FROM " + cls.selectTables();
 
         if (len(where_clauses)):
             select_sql += ' WHERE ' + ' AND '.join(where_clauses)
@@ -64,8 +64,10 @@ class DbBase:
         object_array = [];
         for record in records:
             instance = cls()
-            for i, field in enumerate(cls.fields()):
+            for i, field in enumerate(cls.selectFields()):
                 setattr(instance,field,record[i])
+
+            instance.setupAfterLoad()
             object_array.append(instance)
 
         return object_array
@@ -145,7 +147,7 @@ class DbBase:
 
     def toDict(self):
         obj = {}
-        for field in self.fields():
+        for field in self.selectFields():
             obj[field] = getattr(self,field)
 
         return obj
@@ -164,6 +166,23 @@ class DbBase:
     def tableName():
         pass
 
+    @classmethod
+    def selectTables(cls):
+        return cls.tableName()
+
+    @classmethod
+    def selectWheres(cls):
+        return []
+
+    # TODO : map add 'tableName.' before each field
+    @classmethod
+    def selectFields(cls):
+        return cls.fields()
+
+
     @staticmethod
     def primaryKeys():
+        pass
+
+    def setupAfterLoad(self):
         pass

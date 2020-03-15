@@ -31,7 +31,6 @@ def getRegion(id):
 def getBasket(id):
     basket = Basket.loadByID(id)
     if (basket):
-        basket.loadItems()
         return basket.toJSON()
 
     abort(404)
@@ -44,8 +43,8 @@ def putBasket(basket):
     else:
         basket_obj = createBasket(basket)
 
-    updateBasketItems(basket_obj, basket.get('Items',[]))
-    basket_obj.loadItems()
+    basket_obj.setItems(basket.get('Items',[]))
+    #updateBasketItems(basket_obj, basket.get('Items',[]))
     return basket_obj.toJSON()
 
 
