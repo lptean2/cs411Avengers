@@ -29,11 +29,18 @@ def getRegion(region_id):
 def getBasket(basket_id):
     return lib.api_handler.getBasket(basket_id)
 
+
+@application.route('/baskets', methods=['GET'])
+def getBaskets():
+    return lib.api_handler.getBaskets()
+
+
 @application.route('/basket', methods=['PUT'])
 def putBasket():
     print request
     print request.get_json()
     return lib.api_handler.putBasket(request.json)
+
 
     # parser = reqparse.RequestParser()
     # parser.add_argument('key1')

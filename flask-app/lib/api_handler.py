@@ -36,6 +36,17 @@ def getBasket(id):
     abort(404)
 
 
+def getBaskets():
+    baskets = Basket.loadByFields()
+    return_array = []
+
+    for basket in baskets:
+        return_array.append(basket.toDict())
+
+    return json.dumps(return_array)
+
+
+
 def putBasket(basket):
     basket_obj = None
     if (basket.get('ID')):
