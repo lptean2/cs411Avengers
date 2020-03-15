@@ -24,24 +24,27 @@ class DbBase:
 
     @classmethod
     def loadByID(cls,id):
-        records = cls.loadByFields({'ID' : id})
+        records = cls.loadByFields([
+            {'name' : 'ID', 'value' : id}
+        ])
+
         if (len(records) != 1 ):
             return
 
         return records[0]
 
 
+    # Fields is an array of name/value/op(optional, default is '=') tuples
     @classmethod
-    def loadByFields(cls,fields={},opts={}):
-
+    def loadByFields(cls,fields=[],opts={}):
         cursor = db.cursor()
-
         # Loop over the incoming fields
         binds = [];
         where_clauses = cls.selectWheres();
-        for field_name in fields:
-            binds.append( str(fields[field_name]) )
-            where_clauses.append(field_name + '=%s')
+        for field in fields:
+            binds.append( str(field['value']) )
+            op = field.get('op','=')
+            where_clauses.append(field['name'] + ' ' + op + ' %s')
 
         # Build the select
         select_fields = ', '.join(cls.selectFields())

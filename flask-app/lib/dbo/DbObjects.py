@@ -102,7 +102,10 @@ class Basket(DbBase):
 
     def loadItems(self):
         item_list = []
-        items = BasketItems.loadByFields({'BasketID' : self.ID})
+        items = BasketItems.loadByFields([
+            {'name':'BasketID', 'value': self.ID}
+        ])
+
         for item in items:
             item_dict = {}
             for attr in ['ItemID','Quantity','Name']:
@@ -118,7 +121,9 @@ class Basket(DbBase):
 
 
     def setItems(self, items):
-        current_items = BasketItems.loadByFields({'BasketID' : self.ID})
+        current_items = BasketItems.loadByFields([
+            {'name':'BasketID', 'value': self.ID}
+        ])
 
         for item in current_items:
             item.delete()

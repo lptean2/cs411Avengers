@@ -36,8 +36,14 @@ def getBasket(id):
     abort(404)
 
 
-def getBaskets():
-    baskets = Basket.loadByFields()
+def getBaskets(args):
+    fields = []
+    if args.get('search'):
+        fields.append(
+            {'name' : 'Name', 'value' : '%' + args['search'] + '%', 'op' : 'like'}
+        )
+
+    baskets = Basket.loadByFields(fields)
     return_array = []
 
     for basket in baskets:
@@ -74,7 +80,9 @@ def createBasket(basket):
 
 # Should some of this logic go into the Basket object?
 def updateBasketItems(basket, items):
-    current_items = BasketItems.loadByFields({'BasketID' : basket.ID})
+    current_items = BasketItems.loadByFields([
+        {'name' : 'BasketID', 'value': basket.ID}
+    ])
 
     for item in current_items:
         item.delete()

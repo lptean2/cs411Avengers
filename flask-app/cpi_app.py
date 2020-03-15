@@ -17,7 +17,10 @@ def getItem(item_id):
 
 @application.route('/items', methods=['GET'])
 def getItems():
-    return lib.api_handler.getItems()
+    parser = reqparse.RequestParser()
+    parser.add_argument('search')
+    args = parser.parse_args()
+    return lib.api_handler.getItems(args)
 
 
 @application.route('/region/<region_id>', methods=['GET'])
@@ -32,7 +35,7 @@ def getBasket(basket_id):
 
 @application.route('/baskets', methods=['GET'])
 def getBaskets():
-    return lib.api_handler.getBaskets()
+    return lib.api_handler.getBaskets(request.args)
 
 
 @application.route('/basket', methods=['PUT'])
