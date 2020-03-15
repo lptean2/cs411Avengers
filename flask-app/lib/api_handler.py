@@ -15,7 +15,7 @@ def getItems():
     return_array = []
 
     for item in items:
-        return_array.append(item.asDict())
+        return_array.append(item.toDict())
 
     return json.dumps(return_array)
 
@@ -31,6 +31,7 @@ def getRegion(id):
 def getBasket(id):
     basket = Basket.loadByID(id)
     if (basket):
+        basket.loadItems()
         return basket.toJSON()
 
     abort(404)
@@ -44,6 +45,7 @@ def putBasket(basket):
         basket_obj = createBasket(basket)
 
     updateBasketItems(basket_obj, basket.get('Items',[]))
+    basket_obj.loadItems()
     return basket_obj.toJSON()
 
 
@@ -60,7 +62,7 @@ def createBasket(basket):
     return updated_basket
 
 
-# TODO: some of this logic should go into the Basket object
+# Should some of this logic go into the Basket object?
 def updateBasketItems(basket, items):
     current_items = BasketItems.loadByFields({'BasketID' : basket.ID})
 

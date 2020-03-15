@@ -73,7 +73,7 @@ class Series(DbBase):
         return ['ItemID','RegionID']
 
 
-class DbBasket(DbBase):
+class Basket(DbBase):
     @staticmethod
     def fields():
         return ['ID','Name']
@@ -86,22 +86,10 @@ class DbBasket(DbBase):
     def primaryKey():
         return ['ID']
 
-
-class Basket(DbBasket):
-    @classmethod
-    def loadByFields(cls,fields={},opts={}):
-        baskets = super(Basket, self).loadByFields(cls,fields,opts)
-
-        for basket in baskets:
-            basket.loadBasketItems()
-
-        return baskets
-
-    def loadBasketItems(self):
+    def loadItems(self):
+        item_list = []
         items = BasketItems.loadByFields({'BasketID' : self.ID})
-
-        items_list = []
         for item in items:
-            items_list.append(item.toJSON)
+            item_list.append( item.toDict() )
 
-        setattr(self,'Items',items_list)
+        self.Items = item_list

@@ -143,7 +143,7 @@ class DbBase:
             )
 
 
-    def asDict(self):
+    def toDict(self):
         obj = {}
         for field in self.fields():
             obj[field] = getattr(self,field)
