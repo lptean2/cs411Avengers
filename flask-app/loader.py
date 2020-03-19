@@ -4,6 +4,8 @@ import urllib2
 
 
 def addPrice(series_id, year, period, value):
+    if (value == '-'):
+        return
     area_id = series_id[3:7]
     item_id = series_id[7:]
     mon = int(period[1:]) - 1
