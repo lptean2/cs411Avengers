@@ -120,11 +120,11 @@ class DbBase:
 
 
     def reload(self):
-        pks = {}
+        pks = []
 
         for key in self.primaryKey():
             print key
-            pks[key] = getattr(self,key)
+            pks.append({ 'name' : key, 'value' : getattr(self,key) })
 
         records = self.loadByFields(pks)
         return records[0]
