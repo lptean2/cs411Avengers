@@ -10,7 +10,7 @@ def getItem(id):
     abort(404)
 
 
-def getItems():
+def getItems(args):
     items = Item.loadByFields()
     return_array = []
 
