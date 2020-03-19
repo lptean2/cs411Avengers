@@ -59,7 +59,7 @@ line_count = 0;
 for line in data: # files are iterable
     if (line_count > 0):
         terms = line.split("\t",2)
-        region = Region({'ID' : terms[0].strip(), 'Name' : terms[1].strip()})
+        region = Region({'ID' : terms[0].strip(), 'Name' : terms[1].strip(), 'ParentRegion' : 0})
         region.save()
 
     line_count = line_count + 1
