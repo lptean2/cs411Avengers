@@ -42,8 +42,7 @@ class Price(DbBase):
     @staticmethod
     def primaryKey():
         return ['ItemID','RegionID','PriceDate']
-
-
+    
 
 class BasketItems(DbBase):
     @staticmethod
@@ -85,7 +84,6 @@ class Series(DbBase):
     @staticmethod
     def primaryKey():
         return ['ItemID','RegionID']
-
 
 class Basket(DbBase):
     @staticmethod

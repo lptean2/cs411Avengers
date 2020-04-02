@@ -1,4 +1,4 @@
-from lib.dbo.DbObjects import Item, Region, Basket, BasketItems
+from lib.dbo.DbObjects import Item, Region, Basket, BasketItems, Price
 from flask import abort
 import json
 
@@ -7,6 +7,31 @@ def getItem(id):
     if (item):
         return item.toJSON()
 
+    abort(404)
+
+def getResultItem(name):
+    results = Item.loadByFields([{'name': 'Name', 'value' : '%'+name+'%'}], {'Name': 'Like'})
+    output = []
+    if results:
+        for result in results:
+            output.append(result.toDict())
+        return json.dumps(output)
+    abort(404)
+
+
+def getSeries(parameter):
+    request  = []
+    for key, value in parameter.items():
+        local = {}
+        local['name'] = key
+        local['value'] = value
+        request.append(local)
+    prices = Price.loadByFields(request)
+    output = []
+    if prices:
+        for price in prices:
+            output.append(price.toDict(['PriceDate', 'Price']))
+        return json.dumps(output)
     abort(404)
 
 
