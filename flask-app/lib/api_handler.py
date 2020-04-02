@@ -17,7 +17,7 @@ def getItems(args):
     for item in items:
         return_array.append(item.toDict())
 
-    return json.dumps(return_array)
+    return json.dumps(return_array,sort_keys=True, indent=4)
 
 
 def getRegion(id):
@@ -36,6 +36,14 @@ def getBasket(id):
     abort(404)
 
 
+def deleteBasket(id):
+        basket = Basket.loadByID(id)
+        if (basket):
+            return json.dumps(basket.delete())
+
+        abort(404)
+
+
 def getBaskets(args):
     fields = []
     if args.get('search'):
@@ -49,7 +57,7 @@ def getBaskets(args):
     for basket in baskets:
         return_array.append(basket.toDict())
 
-    return json.dumps(return_array)
+    return json.dumps(return_array,sort_keys=True, indent=4)
 
 
 
@@ -61,32 +69,17 @@ def putBasket(basket):
         basket_obj = createBasket(basket)
 
     basket_obj.setItems(basket.get('Items',[]))
-    #updateBasketItems(basket_obj, basket.get('Items',[]))
     return basket_obj.toJSON()
 
 
 def saveBasket(basket):
     db_basket = Basket.loadByID(basket['ID'])
     db_basket.Name = basket['Name']
-    updated_basket = db_basket.save()
+    updated_basket = db_basket.save({'return_self':1})
     return updated_basket
 
 
 def createBasket(basket):
     obj_basket = Basket({'Name':basket['Name']})
-    updated_basket = obj_basket.save()
+    updated_basket = obj_basket.save({'return_self':1})
     return updated_basket
-
-
-# Should some of this logic go into the Basket object?
-def updateBasketItems(basket, items):
-    current_items = BasketItems.loadByFields([
-        {'name' : 'BasketID', 'value': basket.ID}
-    ])
-
-    for item in current_items:
-        item.delete()
-
-    for item in items:
-        new_item = BasketItems({'BasketID' : basket.ID, 'ItemID' : item['ID'], 'Quantity' : item['Quantity']})
-        new_item.save()

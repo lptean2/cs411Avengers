@@ -63,6 +63,28 @@ CREATE TABLE Series (
 	PRIMARY KEY (ItemID, RegionID)
 );
 
+CREATE VIEW SeriesView AS
+SELECT
+	p.ItemID,
+	i.Name as ItemName,
+	p.RegionID,
+	r.Name as RegionName,
+	MIN(p.Price) AS MinPrice,
+	MAX(p.Price) AS MaxPrice,
+	MIN(p.PriceDate) as StartDate,
+	MAX(p.PriceDate) as EndDate
+FROM
+	Price p,
+	Item i,
+	Region r
+WHERE
+	p.ItemID = i.ID
+	AND r.ID = p.RegionID
+GROUP BY
+	p.ItemID,ItemName,p.RegionID,RegionName
+;
+
+
 /*
 > show tables;
 +-------------------+
