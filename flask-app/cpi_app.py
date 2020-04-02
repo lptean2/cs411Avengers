@@ -47,6 +47,11 @@ def getBasket(basket_id):
     return lib.api_handler.getBasket(basket_id)
 
 
+@application.route('/basket/<basket_id>', methods=['DELETE'])
+def deleteBasket(basket_id):
+    return lib.api_handler.deleteBasket(basket_id)
+
+
 @application.route('/baskets', methods=['GET'])
 def getBaskets():
     return lib.api_handler.getBaskets(request.args)
@@ -54,8 +59,6 @@ def getBaskets():
 
 @application.route('/basket', methods=['PUT'])
 def putBasket():
-    print request
-    print request.get_json()
     return lib.api_handler.putBasket(request.json)
 
 

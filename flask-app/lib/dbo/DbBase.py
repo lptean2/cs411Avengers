@@ -33,7 +33,8 @@ class DbBase:
         return records[0]
 
 
-    # Fields is an array of name/value/op(optional, default is '=') tuples
+    # Fields is an array of dicts with name/value/op(optional, default is '=')
+    # That go in the WHERE clause: WHERE name op value
     @classmethod
     def loadByFields(cls,fields=[],opts={}):
         cursor = db.cursor()
@@ -75,7 +76,7 @@ class DbBase:
         return object_array
 
 
-    def save(self):
+    def save(self,opts={}):
         inserts = []
         insert_values =[]
         insert_binds =[]
@@ -112,10 +113,11 @@ class DbBase:
         db.commit()
 
         # If we are creating the DB row, load into an object
-        if (new_id):
-            return self.loadByID(new_id)
+        if (opts.get('return_self')):
+            if (new_id):
+                return self.loadByID(new_id)
 
-        return self.reload()
+            return self.reload()
 
 
     def reload(self):
@@ -135,10 +137,13 @@ class DbBase:
 
         for field in self.primaryKey():
             delete_wheres.append( field + ' = %s' )
-            delete_values.append( getattr(self, field) )
+            delete_values.append( str(getattr(self, field)) )
 
         delete_statement = 'DELETE FROM ' + self.tableName() + \
             ' WHERE ' + ' AND '.join(delete_wheres)
+
+        print 'Running sql: ' + delete_statement
+        print 'binds: ' + ','.join(delete_values)
 
         cursor = db.cursor()
         cursor.execute(
@@ -146,6 +151,7 @@ class DbBase:
             delete_values
             )
 
+        return True
 
     def toDict(self, cols = []):
         obj = {}
@@ -177,14 +183,17 @@ class DbBase:
     def tableName():
         pass
 
+    # Tables in the FROM clause. Used for joins.
     @classmethod
     def selectTables(cls):
         return cls.tableName()
 
+    # Clauses in the WHERE clause. Used for joins.
     @classmethod
     def selectWheres(cls):
         return []
 
+    # Columns in the SELECT clause. Used for joins.
     # TODO : map add 'tableName.' before each field
     @classmethod
     def selectFields(cls):
