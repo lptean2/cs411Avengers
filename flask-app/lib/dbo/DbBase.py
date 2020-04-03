@@ -57,7 +57,7 @@ class DbBase:
         if (len(where_clauses)):
             select_sql += ' WHERE ' + ' AND '.join(where_clauses)
 
-        print 'Running sql: ' + select_sql
+        print ('Running sql: ' + select_sql)
         print 'binds: ' + ','.join(binds)
 
         cursor.execute(
