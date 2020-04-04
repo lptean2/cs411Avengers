@@ -30,7 +30,7 @@ def loadPrice(price_url):
         line_count = line_count + 1
 
     for line in lines:
-            terms = line.split("\t")
+            terms = line.decode().split("\t")
             addPrice(
                 terms[0].strip(),
                 terms[1].strip(),
@@ -48,7 +48,7 @@ data = six.moves.urllib.request.urlopen(item_url) # it's a file like object and 
 line_count = 0;
 for line in data: # files are iterable
     if (line_count > 0):
-        terms = line.split("\t",2)
+        terms = line.decode().split("\t",2)
         item = Item({'ID' : terms[0].strip(), 'Name' : terms[1].strip()})
         item.save()
 
@@ -61,7 +61,7 @@ data = six.moves.urllib.request.urlopen(region_url) # it's a file like object an
 line_count = 0;
 for line in data: # files are iterable
     if (line_count > 0):
-        terms = line.split("\t",2)
+        terms = line.decode().split("\t",2)
         region = Region({'ID' : terms[0].strip(), 'Name' : terms[1].strip(), 'ParentRegion' : 0})
         region.save()
 
