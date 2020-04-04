@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 from lib.dbo.DbBase import DbBase
 
@@ -42,7 +43,7 @@ class Price(DbBase):
     @staticmethod
     def primaryKey():
         return ['ItemID','RegionID','PriceDate']
-    
+
 
 class BasketItems(DbBase):
     @staticmethod
@@ -129,3 +130,12 @@ class Basket(DbBase):
         for item in items:
             new_item = BasketItems({'BasketID' : self.ID, 'ItemID' : item['ID'], 'Quantity' : item['Quantity']})
             new_item.save()
+
+
+    def cascadeDelete(self):
+        basket_items = BasketItems.loadByFields([
+            {'name':'BasketID', 'value': self.ID}
+        ])
+
+        for item in basket_items:
+            item.delete();

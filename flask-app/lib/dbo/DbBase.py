@@ -1,4 +1,6 @@
-import MySQLdb
+from __future__ import absolute_import
+from __future__ import print_function
+import pymysql
 import json
 import os
 
@@ -13,7 +15,7 @@ db_name = os.environ.get('FLASK_DB_NAME') or 'avengers1_cpi_sh'
 if ( db_user == 'python' and db_pw == 'password123'):
     db_pw = ''
 
-db = MySQLdb.connect(db_host,db_user,db_pw,db_name )
+db = pymysql.connect(db_host,db_user,db_pw,db_name )
 #db = MySQLdb.connect("localhost","python","","cpidata" )
 
 class DbBase:
@@ -57,8 +59,8 @@ class DbBase:
         if (len(where_clauses)):
             select_sql += ' WHERE ' + ' AND '.join(where_clauses)
 
-        print ('Running sql: ' + select_sql)
-        print 'binds: ' + ','.join(binds)
+        print('Running sql: ' + select_sql)
+        print('binds: ' + ','.join(binds))
 
         cursor.execute(
             select_sql,
@@ -99,8 +101,8 @@ class DbBase:
             ' VALUES (' + ','.join(insert_values) + ')' + \
             ' ON DUPLICATE KEY UPDATE  ' + ','.join(updates)
 
-        print 'Running sql: ' + update_statement
-        print 'binds: ' + ','.join(insert_binds + update_binds)
+        print('Running sql: ' + update_statement)
+        print('binds: ' + ','.join(insert_binds + update_binds))
 
         cursor = db.cursor()
         cursor.execute(
@@ -124,7 +126,7 @@ class DbBase:
         pks = []
 
         for key in self.primaryKey():
-            print key
+            print(key)
             pks.append({ 'name' : key, 'value' : getattr(self,key) })
 
         records = self.loadByFields(pks)
@@ -132,6 +134,8 @@ class DbBase:
 
 
     def delete(self):
+        self.cascadeDelete();
+
         delete_wheres = []
         delete_values = []
 
@@ -142,14 +146,16 @@ class DbBase:
         delete_statement = 'DELETE FROM ' + self.tableName() + \
             ' WHERE ' + ' AND '.join(delete_wheres)
 
-        print 'Running sql: ' + delete_statement
-        print 'binds: ' + ','.join(delete_values)
+        print('Running sql: ' + delete_statement)
+        print('binds: ' + ','.join(delete_values))
 
         cursor = db.cursor()
         cursor.execute(
             delete_statement,
             delete_values
             )
+
+        db.commit();
 
         return True
 
@@ -202,6 +208,9 @@ class DbBase:
 
     @staticmethod
     def primaryKeys():
+        pass
+
+    def cascadeDelete(self):
         pass
 
     def setupAfterLoad(self):

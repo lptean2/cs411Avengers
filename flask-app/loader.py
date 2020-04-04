@@ -1,6 +1,7 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
 from lib.dbo.DbObjects import Item, Region, Price
-import urllib2
+import six.moves.urllib.request, six.moves.urllib.error, six.moves.urllib.parse
 
 
 def addPrice(series_id, year, period, value):
@@ -16,7 +17,7 @@ def addPrice(series_id, year, period, value):
 
 
 def loadPrice(price_url):
-    data = urllib2.urlopen(price_url) # it's a file like object and works just like a file
+    data = six.moves.urllib.request.urlopen(price_url) # it's a file like object and works just like a file
     line_count = 0;
 
     lines = [];
@@ -29,7 +30,7 @@ def loadPrice(price_url):
         line_count = line_count + 1
 
     for line in lines:
-            terms = line.split("\t")
+            terms = line.decode().split("\t")
             addPrice(
                 terms[0].strip(),
                 terms[1].strip(),
@@ -43,11 +44,11 @@ def loadPrice(price_url):
 # Load item data
 item_url = 'https://download.bls.gov/pub/time.series/ap/ap.item'
 
-data = urllib2.urlopen(item_url) # it's a file like object and works just like a file
+data = six.moves.urllib.request.urlopen(item_url) # it's a file like object and works just like a file
 line_count = 0;
 for line in data: # files are iterable
     if (line_count > 0):
-        terms = line.split("\t",2)
+        terms = line.decode().split("\t",2)
         item = Item({'ID' : terms[0].strip(), 'Name' : terms[1].strip()})
         item.save()
 
@@ -56,11 +57,11 @@ for line in data: # files are iterable
 
 # Load Region data
 region_url = 'https://download.bls.gov/pub/time.series/ap/ap.area'
-data = urllib2.urlopen(region_url) # it's a file like object and works just like a file
+data = six.moves.urllib.request.urlopen(region_url) # it's a file like object and works just like a file
 line_count = 0;
 for line in data: # files are iterable
     if (line_count > 0):
-        terms = line.split("\t",2)
+        terms = line.decode().split("\t",2)
         region = Region({'ID' : terms[0].strip(), 'Name' : terms[1].strip(), 'ParentRegion' : 0})
         region.save()
 

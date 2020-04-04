@@ -1,4 +1,5 @@
-from flask import Flask, request
+from __future__ import absolute_import
+from flask import Flask
 import lib.api_handler
 from flask_restful import reqparse
 from flask import request
@@ -40,7 +41,7 @@ def getSeries():
     if 'RegionID' in request.args:
         parameter['RegionID'] = request.args['RegionID']
     return lib.api_handler.getSeries(parameter)
-    
+
 
 @application.route('/basket/<basket_id>', methods=['GET'])
 def getBasket(basket_id):
