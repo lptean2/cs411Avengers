@@ -134,6 +134,8 @@ class DbBase:
 
 
     def delete(self):
+        self.cascadeDelete();
+
         delete_wheres = []
         delete_values = []
 
@@ -152,6 +154,8 @@ class DbBase:
             delete_statement,
             delete_values
             )
+
+        db.commit();
 
         return True
 
@@ -204,6 +208,9 @@ class DbBase:
 
     @staticmethod
     def primaryKeys():
+        pass
+
+    def cascadeDelete(self):
         pass
 
     def setupAfterLoad(self):
