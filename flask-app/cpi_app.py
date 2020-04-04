@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from flask import Flask
 import lib.api_handler
 from flask_restful import reqparse

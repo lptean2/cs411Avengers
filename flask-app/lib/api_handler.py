@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from lib.dbo.DbObjects import Item, Region, Basket, BasketItems
 from flask import abort
 import json
