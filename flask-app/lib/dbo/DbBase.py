@@ -29,9 +29,8 @@ class DbBase:
         records = cls.loadByFields([
             {'name' : 'ID', 'value' : id}
         ])
-
         if (len(records) != 1 ):
-            return
+            return records
 
         return records[0]
 
@@ -46,7 +45,10 @@ class DbBase:
         where_clauses = cls.selectWheres();
         for field in fields:
             binds.append( str(field['value']) )
-            op = field.get('op','=')
+            if field['name'] not in opts:
+                op = field.get('op','=')
+            else:
+                op = opts[field['name']]
             where_clauses.append(field['name'] + ' ' + op + ' %s')
 
         # Build the select
@@ -65,17 +67,14 @@ class DbBase:
             binds
             )
         records = cursor.fetchall()
-
         # Build objects from the DB records
-        object_array = [];
+        object_array = []
         for record in records:
             instance = cls()
             for i, field in enumerate(cls.selectFields()):
                 setattr(instance,field,record[i])
-
             instance.setupAfterLoad()
             object_array.append(instance)
-
         return object_array
 
 
@@ -111,7 +110,7 @@ class DbBase:
             insert_binds + update_binds
             )
 
-        # If it is a new row, lastrowid will be populated, if not, use the ID
+        # If it is a new row, lastrowid will be populated, if not, use the Item
         new_id = cursor.lastrowid
         db.commit()
 
@@ -156,10 +155,17 @@ class DbBase:
 
         return True
 
-    def toDict(self):
+    def toDict(self, cols = []):
         obj = {}
-        for field in self.selectFields():
-            obj[field] = getattr(self,field)
+        fields = None
+        if len(cols):
+            fields = cols
+        else:
+            fields = self.selectFields()
+
+        for field in fields:
+            if getattr(self,field) :
+                obj[field] = getattr(self,field)
 
         return obj
 
@@ -167,6 +173,8 @@ class DbBase:
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__,
             sort_keys=True, indent=4)
+
+
 
 
     @staticmethod

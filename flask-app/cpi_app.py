@@ -23,10 +23,24 @@ def getItems():
     args = parser.parse_args()
     return lib.api_handler.getItems(args)
 
+@application.route('/searchItem/<name>', methods=['GET'])
+def searchItem(name):
+    return lib.api_handler.getResultItem(name)
+
 
 @application.route('/region/<region_id>', methods=['GET'])
 def getRegion(region_id):
     return lib.api_handler.getRegion(region_id)
+
+
+@application.route('/series', methods=['GET'])
+def getSeries():
+    parameter = {}
+    if 'ItemID' in request.args:
+        parameter['ItemID'] = request.args['ItemID']
+    if 'RegionID' in request.args:
+        parameter['RegionID'] = request.args['RegionID']
+    return lib.api_handler.getSeries(parameter)
 
 
 @application.route('/basket/<basket_id>', methods=['GET'])
