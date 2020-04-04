@@ -1,0 +1,26 @@
+.root {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+
+}
+.creator {
+
+}
+.content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.middle {
+  border: 1px solid #0900ff;
+  flex: 1 1 auto;
+}
+.side {
+  border: 1px solid #ff000d;
+}

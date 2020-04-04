@@ -24,7 +24,6 @@ const Baskets = () => {
 	};
 
 	return (
-		
 		<table>
 			<tbody>
 			<tr>
