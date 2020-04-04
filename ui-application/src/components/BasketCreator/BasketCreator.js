@@ -1,6 +1,5 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {getBaskets} from "../../actions/basketActions";
 
 const BasketCreator = props => {
   const [name, setName] = useState("");
@@ -27,7 +26,7 @@ const BasketCreator = props => {
       })
       .then(res => res.json())
       .then(data => {
-        dispatch(getBaskets());
+        //todo get baskets
       });
   }, []);
 
