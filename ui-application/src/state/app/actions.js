@@ -4,10 +4,10 @@ export const addItem = (itemId) => ({
   itemId,
 });
 
-export const SELECT_BASKET = 'app/SELECT_BASKET';
-export const selectBasket = (basketId) => ({
-  type: SELECT_BASKET,
-  basketId,
+export const SET_BASKETS = 'app/SET_BASKETS';
+export const setBaskets = (basketIds) => ({
+  type: SET_BASKETS,
+  basketIds,
 })
 
 export const SET_TAB = 'app/SET_TAB';

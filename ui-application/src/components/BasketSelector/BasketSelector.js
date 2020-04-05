@@ -1,12 +1,18 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import { Multiselect } from "multiselect-react-dropdown";
+import {setBaskets} from '../../state/app/actions';
 
 const BasketSelector = props => {
   const allBaskets = useSelector(state => state.data.allBaskets);
+  const dispatch = useDispatch();
+
   const handleSelect = (selectedList, selectedBasket) => {
     console.log(selectedList);
     console.log(selectedBasket);
+    dispatch(setBaskets(selectedList.map(obj => {
+      return obj.ID
+    })));
   };
   return (
     <div>

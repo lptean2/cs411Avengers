@@ -1,7 +1,8 @@
-import {ADD_ITEM, SET_TAB, SELECT_BASKET} from "./actions";
+import {ADD_ITEM, SET_TAB, SET_BASKETS} from "./actions";
 import {Tab} from "./Tab";
 const initialState = {
   selectedItemIds: [],
+  selectedBasketIds: [],
   tab: Tab.DISPLAY,
 };
 
@@ -20,14 +21,11 @@ function appReducer(state = initialState, action){
         ...state,
         tab: action.tab,
       }
-    /*case SELECT_BASKET:
+    case SET_BASKETS:
       return{
         ...state,
-        selectedBasketIds:[
-          ...state.selectedBasketIds,
-          action.basketId,
-        ]
-      }*/
+        selectedBasketIds:action.basketIds
+      }
     default:
       return state;
   }

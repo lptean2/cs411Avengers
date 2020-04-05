@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import BasketCreator from "./components/BasketCreator";
+import BasketSelector from "./components/BasketSelector";
 import ItemSelector from "./components/ItemSelector";
 import BasketsChart from "./components/BasketsChart";
 import ItemsBasket from "./components/ItemsBasket";
@@ -31,7 +32,7 @@ function App() {
             <>
             <h1 className={styles.title}>CPI Explorer</h1>
             <div className={styles.creator}>
-              <BasketCreator/>
+              <BasketSelector/>
             </div>
             <div className={styles.content}>
               <div className={styles.side}>
@@ -39,6 +40,22 @@ function App() {
               </div>
               <div className={styles.middle}>
                 <BasketsChart/>
+              </div>
+              <div className={styles.side}>
+                <ItemsBasket/>
+              </div>
+            </div>
+            </>
+        )}
+        {tab === TabOptions.EDIT && (
+            <>
+            <h1 className={styles.title}>CPI Explorer</h1>
+            <div className={styles.creator}>
+              <BasketCreator/>
+            </div>
+            <div className={styles.content}>
+              <div className={styles.side}>
+                <ItemSelector/>
               </div>
               <div className={styles.side}>
                 <ItemsBasket/>
