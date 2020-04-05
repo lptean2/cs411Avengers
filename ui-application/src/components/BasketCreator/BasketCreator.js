@@ -8,8 +8,6 @@ const BasketCreator = props => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const selectedItemIds = useSelector(state => state.app.selectedItemIds);
-  
-  const allBaskets = useSelector(state => state.data.allBaskets);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,24 +36,12 @@ const BasketCreator = props => {
       });
   };
 
-  const handleSelect = (selectedList, selectedBasket) => {
-    console.log(selectedList);
-    console.log(selectedBasket);
-  }
-
   const handleChange = (e) => {
     setName(e.target.value)
-  }
-
+  };
 
   return (
     <div>
-      <h3>Available Baskets</h3>
-      <Multiselect
-        options={allBaskets}
-        displayValue="Name"
-        onSelect={handleSelect}
-      />
       <h3>Create new Basket:</h3>
       <form onSubmit={handleSubmit}>
         <label>Basket Name: </label>
