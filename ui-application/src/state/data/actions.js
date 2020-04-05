@@ -32,7 +32,7 @@ export const requestBasket = (basketId) => {
 		dispatch({type: REQUEST_BASKET_ITEMS, basketId});
 		const result = await window.fetch('http://avengers1.web.illinois.edu/cpi_api/basket/' + basketId);
 		const jsonResult = await result.json();
-		dispatch({type: RECEIVE_BASKET_ITEMS, basketId, basket: jsonResult});
+		dispatch({type: RECEIVE_BASKET_ITEMS, basketId, items: jsonResult.Items});
 		dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
 	}
 };

@@ -8,6 +8,8 @@ import {Tab as TabOptions} from "../../state/app/Tab";
 const BasketSelector = props => {
   const allBaskets = useSelector(state => state.data.allBaskets);
   const dispatch = useDispatch();
+  const tab = useSelector(state => state.app.tab);
+
 
   const handleSelect = (selectedList, selectedBasket) => {
     console.log(selectedList);
@@ -15,11 +17,9 @@ const BasketSelector = props => {
     dispatch(setBaskets(selectedList.map(obj => {
       return obj.ID
     })));
-    console.log('selectedBasket', selectedBasket);
-    dispatch(requestBasket(selectedBasket.ID));
+    dispatch(requestBasket(selectedBasket.ID)); 
   };
 
-  const tab = useSelector(state => state.app.tab);
 
   return (
     <div>

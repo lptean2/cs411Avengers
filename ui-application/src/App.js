@@ -4,6 +4,7 @@ import BasketCreator from "./components/BasketCreator";
 import BasketSelector from "./components/BasketSelector";
 import ItemSelector from "./components/ItemSelector";
 import BasketsChart from "./components/BasketsChart";
+import SelectedItems from "./components/SelectedItems";
 import ItemsBasket from "./components/ItemsBasket";
 import Tab from "./components/Tab";
 import {Tab as TabOptions} from "./state/app/Tab";
@@ -25,6 +26,9 @@ function App() {
     return state.app.tab;
   });
 
+    const state = useSelector(state => state);
+
+    console.log('state', state);
   return (
       <div className={styles.root}>
         <Tab/>
@@ -58,7 +62,7 @@ function App() {
                 <ItemSelector/>
               </div>
               <div className={styles.side}>
-                <ItemsBasket/>
+                <SelectedItems/>
               </div>
             </div>
             </>

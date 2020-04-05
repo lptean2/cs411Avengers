@@ -1,20 +1,30 @@
-import {ADD_EDIT_ITEM, SET_EDIT_BASKET_ITEMS} from "./actions";
-import {Tab} from "./Tab";
+import {ADD_EDIT_ITEM, UPDATE_EDIT_ITEM, DELETE_EDIT_ITEM, SET_EDIT_ITEMS} from "./actions";
 import {produce} from "immer";
 
 const initialState = {
-  selectedEditItemIds: [],
+  selectedEditItems: []
 };
 
 const editReducer = produce((state = initialState, action) => {
   switch (action.type) {
-    case ADD_EDIT_ITEM:
-      state.selectedEditItemIds.push({itemId:action.itemId,quantity:action.quantity});
+    case ADD_EDIT_ITEM: {
+      const existingItemIdx = state.selectedEditItems.findIndex(item => item.ItemID === action.itemId);
+      if(existingItemIdx > -1) {
+        state.selectedEditItems[existingItemIdx].Quantity++;
+      } else {
+        state.selectedEditItems.push({ItemID: action.itemId, Quantity: 1});
+      }
       break;
-    case REMOVE_EDIT_ITEM:
+    }
+    case UPDATE_EDIT_ITEM:
+      const item = state.selectedEditItems.find(item => item.ItemID === action.itemId);
+      item.Quantity = action.quantity;
       break;
-    case SET_EDIT_BASKET_ITEMS:
-      state.selectedEditItemIds = action.editItemIds;
+    case DELETE_EDIT_ITEM: 
+      state.selectedEditItems = state.selectedEditItems.filter(item => item.ItemID !== action.itemId);
+      break;
+    case SET_EDIT_ITEMS:
+      state.selectedEditItems = action.editItems;
       break;
     default:
       return state;

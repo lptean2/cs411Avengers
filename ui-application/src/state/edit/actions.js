@@ -1,8 +1,7 @@
 export const ADD_EDIT_ITEM = 'edit/ADD_EDIT_ITEM';
-export const addEditItem = (itemId,quantity) => ({
+export const addEditItem = (itemId) => ({
   type: ADD_EDIT_ITEM,
-  itemId,
-  quantity
+  itemId
 });
 
 export const DELETE_EDIT_ITEM = 'edit/DELETE_EDIT_ITEM';
@@ -23,3 +22,4 @@ export const setEditItems = (editItems) => ({
   type: SET_EDIT_ITEMS,
   editItems,
 });
+

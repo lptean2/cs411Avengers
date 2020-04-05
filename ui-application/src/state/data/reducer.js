@@ -7,6 +7,7 @@ import {
 import {produce} from 'immer';
 
 const initialState = {
+  basketItems: {},
   fetchingBasketItems: {},
   fetchingItems: false,
   allItems: [],
@@ -36,6 +37,7 @@ const dataReducer = produce((state = initialState, action) => {
       break;
     case RECEIVE_BASKET_ITEMS:
       state.fetchingBasketItems[action.basketId] = false;
+      state.basketItems[action.basketId] = action.items;
       break;
     default:
       return state;
