@@ -1,13 +1,21 @@
 import React, {useCallback, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { Multiselect } from "multiselect-react-dropdown";
+import {requestAllBaskets} from "../../state/data/actions";
+
 
 const BasketCreator = props => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
+  const selectedItemIds = useSelector(state => state.app.selectedItemIds);
+  
+  const allBaskets = useSelector(state => state.data.allBaskets);
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({name});
+    const basketItems = selectedItemIds.map(itemId => {
+      return {ID: itemId, Quantity: 1}
+    });
 
     fetch(
       'http://avengers1.web.illinois.edu/cpi_api/basket',
@@ -20,25 +28,40 @@ const BasketCreator = props => {
         body: JSON.stringify(
           {
             Name: name,
-            Items: []
+            Items: basketItems
           }
         )
       })
       .then(res => res.json())
       .then(data => {
-        //todo get baskets
+        dispatch(requestAllBaskets())
       });
-  }, []);
+  };
+
+  const handleSelect = (selectedList, selectedBasket) => {
+    console.log(selectedList);
+    console.log(selectedBasket);
+  }
+
+  const handleChange = (e) => {
+    setName(e.target.value)
+  }
+
 
   return (
     <div>
+      <Multiselect
+        options={allBaskets}
+        displayValue="Name"
+        onSelect={handleSelect}
+      />
       <h3>Create new Basket:</h3>
       <form onSubmit={handleSubmit}>
         <label>Basket Name: </label>
         <input
           type="text"
           value={name}
-          onChange={e => setName(e.target.value)}/>
+          onChange={handleChange}/>
         <input type="submit" value="Submit"/>
       </form>
     </div>

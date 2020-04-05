@@ -1,8 +1,13 @@
-import {RECEIVE_ALL_ITEMS, REQUEST_ALL_ITEMS} from "./actions";
+import {RECEIVE_ALL_ITEMS, 
+  REQUEST_ALL_ITEMS, 
+  REQUEST_ALL_BASKETS, 
+  RECEIVE_ALL_BASKETS} from "./actions";
 
 const initialState = {
   fetchingItems: false,
   allItems: [],
+  fetchingBaskets: false,
+  allBaskets: [],
 };
 
 function dataReducer(state = initialState, action){
@@ -18,6 +23,17 @@ function dataReducer(state = initialState, action){
         fetchingItems: false,
         allItems: action.allItems,
       };
+    case REQUEST_ALL_BASKETS:
+      return {
+        ...state,
+        fetchingBaskets: true,
+      };
+    case RECEIVE_ALL_BASKETS:
+      return {
+        ...state,
+        fetchingBaskets: false,
+        allBaskets: action.allBaskets,
+      }
     default:
       return state;
   }

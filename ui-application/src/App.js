@@ -4,7 +4,7 @@ import BasketCreator from "./components/BasketCreator";
 import ItemSelector from "./components/ItemSelector";
 import BasketsChart from "./components/BasketsChart";
 import ItemsBasket from "./components/ItemsBasket";
-import {requestAllItems} from "./state/data/actions";
+import {requestAllItems, requestAllBaskets} from "./state/data/actions";
 import styles from './App.module.css';
 
 function App() {
@@ -13,6 +13,10 @@ function App() {
   useEffect(() => {
     dispatch(requestAllItems());
   });
+
+  useEffect(() => {
+    dispatch(requestAllBaskets());
+  })
   return (
       <div className={styles.root}>
         <h1 className={styles.title}>CPI Explorer</h1>
