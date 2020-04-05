@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import BasketCreator from "./components/BasketCreator";
 import ItemSelector from "./components/ItemSelector";
 import BasketsChart from "./components/BasketsChart";
 import ItemsBasket from "./components/ItemsBasket";
+import Tab from "./components/Tab";
+import {Tab as TabOptions} from "./state/app/Tab";
 import {requestAllItems, requestAllBaskets} from "./state/data/actions";
 import styles from './App.module.css';
 
@@ -12,28 +14,39 @@ function App() {
 
   useEffect(() => {
     dispatch(requestAllItems());
-  });
+  },[dispatch]);
 
   useEffect(() => {
     dispatch(requestAllBaskets());
-  })
+  },[dispatch]);
+
+  const tab = useSelector((state) => {
+    return state.app.tab;
+  });
+
   return (
       <div className={styles.root}>
-        <h1 className={styles.title}>CPI Explorer</h1>
-        <div className={styles.creator}>
-          <BasketCreator/>
-        </div>
-        <div className={styles.content}>
-          <div className={styles.side}>
-            <ItemSelector/>
-          </div>
-          <div className={styles.middle}>
-            <BasketsChart/>
-          </div>
-          <div className={styles.side}>
-            <ItemsBasket/>
-          </div>
-        </div>
+        <Tab/>
+        {tab === TabOptions.DISPLAY && (
+            <>
+            <h1 className={styles.title}>CPI Explorer</h1>
+            <div className={styles.creator}>
+              <BasketCreator/>
+            </div>
+            <div className={styles.content}>
+              <div className={styles.side}>
+                <ItemSelector/>
+              </div>
+              <div className={styles.middle}>
+                <BasketsChart/>
+              </div>
+              <div className={styles.side}>
+                <ItemsBasket/>
+              </div>
+            </div>
+            </>
+        )}
+        
       </div>
   );
 }

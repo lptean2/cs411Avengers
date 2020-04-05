@@ -50,6 +50,7 @@ const BasketCreator = props => {
 
   return (
     <div>
+      <h3>Available Baskets</h3>
       <Multiselect
         options={allBaskets}
         displayValue="Name"

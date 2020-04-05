@@ -7,7 +7,7 @@ const ItemsBasket = props => {
   const allItems = useSelector(state => state.data.allItems);
   const selectedItems = useMemo(() => {
     return selectedItemsIds.map(itemId => allItems.find(({ID}) => ID === itemId));
-  }, [selectedItemsIds]);
+  }, [selectedItemsIds, allItems]);
   return (
     <div className={styles.root}>
       {selectedItems.map(({ID, Name}) => (

@@ -7,11 +7,11 @@ import {useDispatch} from "react-redux";
 const SelectButton = props => {
   const dispatch = useDispatch();
 
+  const {data} = props;
+
   const onClick = useCallback(() => {
-    console.log("Clicked on row", props);
-    const {data} = props;
     dispatch(addItem(data.ID));
-  }, [dispatch]);
+  }, [dispatch, data]);
 
   return (
     <div className={styles.root}>
