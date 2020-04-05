@@ -1,34 +1,31 @@
-import {ADD_ITEM, SET_TAB, SET_BASKETS} from "./actions";
+import {ADD_ITEM, SET_TAB, SET_BASKETS, SET_BASKET_ITEMS} from "./actions";
 import {Tab} from "./Tab";
+import {produce} from "immer";
+
 const initialState = {
   selectedItemIds: [],
   selectedBasketIds: [],
   tab: Tab.DISPLAY,
+  basketItems: {}
 };
 
-function appReducer(state = initialState, action){
+const appReducer = produce((state = initialState, action) => {
   switch (action.type) {
     case ADD_ITEM:
-      return {
-        ...state,
-        selectedItemIds: [
-          ...state.selectedItemIds,
-          action.itemId,
-        ]
-      };
+      state.selectedItemIds.push(action.itemId);
+      break;
     case SET_TAB:
-      return {
-        ...state,
-        tab: action.tab,
-      }
+      state.tab = action.tab;
+      break;
     case SET_BASKETS:
-      return{
-        ...state,
-        selectedBasketIds:action.basketIds
-      }
+      state.selectedBasketIds = action.basketIds;
+      break;
+    case SET_BASKET_ITEMS:
+      state.basketItems[action.basketId] = action.items;
+      break;
     default:
       return state;
   }
-}
+});
 
 export default appReducer;

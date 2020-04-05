@@ -3,16 +3,15 @@ import {useSelector} from "react-redux";
 import styles from './ItemsBasket.module.css';
 
 const ItemsBasket = props => {
-  const selectedItemsIds = useSelector(state => state.app.selectedItemIds);
-  const allItems = useSelector(state => state.data.allItems);
-  const selectedItems = useMemo(() => {
-    return selectedItemsIds.map(itemId => allItems.find(({ID}) => ID === itemId));
-  }, [selectedItemsIds, allItems]);
+  const basketItems = useSelector(state => state.app.basketItems);
   return (
     <div className={styles.root}>
-      {selectedItems.map(({ID, Name}) => (
-        <div>
-          <span>{ID}</span> - <span>{Name}</span>
+      {Object.entries(basketItems).map(([basketId, basketItems]) => (
+        <div key={basketId}>
+          <div>Basket ID:<b>{basketId}</b></div>
+          {basketItems.map(basketItem => (
+            <div key={basketItem.ID}>Item: {JSON.stringify(basketItem)}</div>
+          ))}
         </div>
       ))}
     </div>

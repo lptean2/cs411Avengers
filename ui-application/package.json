@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "ag-grid-community": "^23.0.2",
     "ag-grid-react": "^23.0.2",
+    "immer": "^6.0.3",
     "multiselect-react-dropdown": "^1.4.7",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",

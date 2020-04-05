@@ -1,11 +1,13 @@
+import {setBasketItems} from "../app/actions";
+
 export const REQUEST_ALL_ITEMS = 'data/REQUEST_ALL_ITEMS';
 export const RECEIVE_ALL_ITEMS = 'data/RECEIVE_ALL_ITEMS';
 
 export const REQUEST_ALL_BASKETS = 'data/REQUEST_ALL_BASKETS';
 export const RECEIVE_ALL_BASKETS = 'data/RECEIVE_ALL_BASKETS';
 
-export const REQUEST_BASKET = 'data/REQUEST_BASKET';
-export const RECEIVE_BASKET = 'data/RECEIVE_BASKET';
+export const REQUEST_BASKET_ITEMS = 'data/REQUEST_BASKET_ITEMS';
+export const RECEIVE_BASKET_ITEMS = 'data/RECEIVE_BASKET_ITEMS';
 
 export const requestAllItems = () => {
   return async (dispatch) => {
@@ -27,9 +29,10 @@ export const requestAllBaskets = () => {
 
 export const requestBasket = (basketId) => {
 	return async (dispatch) => {
-		dispatch({type: REQUEST_BASKET});
-		const result = await window.fetch('http://avengers1.web.illinois.edu/cpi_api/basket/'+{basketId});
+		dispatch({type: REQUEST_BASKET_ITEMS, basketId});
+		const result = await window.fetch('http://avengers1.web.illinois.edu/cpi_api/basket/' + basketId);
 		const jsonResult = await result.json();
-		dispatch({type: RECEIVE_BASKET, basket: jsonResult});
+		dispatch({type: RECEIVE_BASKET_ITEMS, basketId, basket: jsonResult});
+		dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
 	}
-}
+};

@@ -1,42 +1,45 @@
-import {RECEIVE_ALL_ITEMS, 
-  REQUEST_ALL_ITEMS, 
-  REQUEST_ALL_BASKETS, 
-  RECEIVE_ALL_BASKETS} from "./actions";
+import {
+  RECEIVE_ALL_ITEMS,
+  REQUEST_ALL_ITEMS,
+  REQUEST_ALL_BASKETS,
+  RECEIVE_ALL_BASKETS, REQUEST_BASKET_ITEMS, RECEIVE_BASKET_ITEMS
+} from "./actions";
+import {produce} from 'immer';
 
 const initialState = {
+  fetchingBasketItems: {},
   fetchingItems: false,
   allItems: [],
   fetchingBaskets: false,
   allBaskets: [],
 };
 
-function dataReducer(state = initialState, action){
+const dataReducer = produce((state = initialState, action) => {
   switch (action.type) {
     case REQUEST_ALL_ITEMS:
-      return {
-        ...state,
-        fetchingItems: true,
-      };
+      state.fetchingItems = true;
+      break;
     case RECEIVE_ALL_ITEMS:
-      return {
-        ...state,
-        fetchingItems: false,
-        allItems: action.allItems,
-      };
+      state.fetchingItems = false;
+      state.allItems = action.allItems;
+      break;
     case REQUEST_ALL_BASKETS:
-      return {
-        ...state,
-        fetchingBaskets: true,
-      };
+      state.fetchingBaskets = true;
+      break;
     case RECEIVE_ALL_BASKETS:
-      return {
-        ...state,
-        fetchingBaskets: false,
-        allBaskets: action.allBaskets,
-      }
+      state.fetchingBaskets = false;
+      state.allBaskets = action.allBaskets;
+      break;
+
+    case REQUEST_BASKET_ITEMS:
+      state.fetchingBasketItems[action.basketId] = true;
+      break;
+    case RECEIVE_BASKET_ITEMS:
+      state.fetchingBasketItems[action.basketId] = false;
+      break;
     default:
       return state;
   }
-}
+});
 
 export default dataReducer;
