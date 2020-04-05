@@ -35,9 +35,6 @@ function App() {
               <BasketSelector/>
             </div>
             <div className={styles.content}>
-              <div className={styles.side}>
-                <ItemSelector/>
-              </div>
               <div className={styles.middle}>
                 <BasketsChart/>
               </div>
@@ -50,6 +47,9 @@ function App() {
         {tab === TabOptions.EDIT && (
             <>
             <h1 className={styles.title}>CPI Explorer</h1>
+            <div className={styles.creator}>
+              <BasketSelector/>
+            </div>
             <div className={styles.creator}>
               <BasketCreator/>
             </div>

@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { Multiselect } from "multiselect-react-dropdown";
 import {setBaskets} from '../../state/app/actions';
 import {requestBasket} from "../../state/data/actions";
+import {Tab as TabOptions} from "../../state/app/Tab";
 
 const BasketSelector = props => {
   const allBaskets = useSelector(state => state.data.allBaskets);
@@ -17,6 +18,9 @@ const BasketSelector = props => {
     console.log('selectedBasket', selectedBasket);
     dispatch(requestBasket(selectedBasket.ID));
   };
+
+  const tab = useSelector(state => state.app.tab);
+
   return (
     <div>
       <h3>Available Baskets</h3>
@@ -24,6 +28,7 @@ const BasketSelector = props => {
         options={allBaskets}
         displayValue="Name"
         id="ID"
+        singleSelect={tab===TabOptions.EDIT}
         onSelect={handleSelect}
       />
     </div>

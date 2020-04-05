@@ -10,7 +10,7 @@ const ItemsBasket = props => {
         <div key={basketId}>
           <div>Basket ID:<b>{basketId}</b></div>
           {basketItems.map(basketItem => (
-            <div key={basketItem.ID}>Item: {JSON.stringify(basketItem)}</div>
+            <div key={basketItem.ItemID}>Item: {JSON.stringify(basketItem)}</div>
           ))}
         </div>
       ))}

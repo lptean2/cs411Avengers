@@ -16,6 +16,7 @@ const appReducer = produce((state = initialState, action) => {
       break;
     case SET_TAB:
       state.tab = action.tab;
+      state.selectedBasketIds = [];
       break;
     case SET_BASKETS:
       state.selectedBasketIds = action.basketIds;
