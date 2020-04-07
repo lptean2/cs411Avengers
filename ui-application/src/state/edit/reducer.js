@@ -21,10 +21,18 @@ const editReducer = produce((state = initialState, action) => {
       item.Quantity = action.quantity;
       break;
     case DELETE_EDIT_ITEM: 
-      state.selectedEditItems = state.selectedEditItems.filter(item => item.ItemID !== action.itemId);
+      const existingItemIdx = state.selectedEditItems.findIndex(item => item.ItemID === action.itemId);
+      if (existingItemIdx > -1){
+        if(state.selectedEditItems[existingItemIdx].Quantity <= 1){
+          state.selectedEditItems = state.selectedEditItems.filter(item => item.ItemID !== action.itemId);
+        } else {
+          state.selectedEditItems[existingItemIdx].Quantity--;
+        }
+      }      
       break;
     case SET_EDIT_ITEMS:
       state.selectedEditItems = action.editItems;
+      console.log("in Set Edit Items ",action.editItems);
       break;
     default:
       return state;

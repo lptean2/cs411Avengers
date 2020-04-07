@@ -17,7 +17,7 @@ const BasketSelector = props => {
     dispatch(setBaskets(selectedList.map(obj => {
       return obj.ID
     })));
-    dispatch(requestBasket(selectedBasket.ID)); 
+    dispatch(requestBasket(selectedBasket.ID,tab)); 
   };
 
 

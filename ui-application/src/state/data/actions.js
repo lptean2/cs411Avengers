@@ -1,4 +1,6 @@
 import {setBasketItems} from "../app/actions";
+import {Tab as TabOptions} from "../app/Tab";
+import {setEditItems} from "../edit/actions";
 
 export const REQUEST_ALL_ITEMS = 'data/REQUEST_ALL_ITEMS';
 export const RECEIVE_ALL_ITEMS = 'data/RECEIVE_ALL_ITEMS';
@@ -27,12 +29,17 @@ export const requestAllBaskets = () => {
 	}
 };
 
-export const requestBasket = (basketId) => {
+export const requestBasket = (basketId,tab) => {
 	return async (dispatch) => {
 		dispatch({type: REQUEST_BASKET_ITEMS, basketId});
 		const result = await window.fetch('http://avengers1.web.illinois.edu/cpi_api/basket/' + basketId);
 		const jsonResult = await result.json();
 		dispatch({type: RECEIVE_BASKET_ITEMS, basketId, items: jsonResult.Items});
-		dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
+		if(tab === TabOptions.DISPLAY) {
+		    dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
+		} else {
+			dispatch(setEditItems(basketId, jsonResult?.Items ?? []));
+			//dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
+		}
 	}
 };

@@ -17,7 +17,7 @@ const SelectedItems = props => {
   const selectedBasketId = useSelector(state => state.app.selectedBasketIds)?.[0];
   const basketItemMap = useSelector(state => state.data.basketItems);
 
-  console.log('baketItemMap', basketItemMap);
+  console.log('basketItemMap', basketItemMap);
   const basketItems = useMemo(() => basketItemMap?.[selectedBasketId] ?? [], [basketItemMap, selectedBasketId]);
   const selectedEditItems = useSelector(state => state.edit.selectedEditItems);
   const rowData = useMemo(() => [...basketItems, ...selectedEditItems], [basketItems, selectedEditItems]);
