@@ -20,6 +20,7 @@ const SelectedItems = props => {
   console.log('basketItemMap', basketItemMap);
   const basketItems = useMemo(() => basketItemMap?.[selectedBasketId] ?? [], [basketItemMap, selectedBasketId]);
   const selectedEditItems = useSelector(state => state.edit.selectedEditItems);
+  console.log("selectedEditItems", selectedEditItems);
   const rowData = useMemo(() => [...basketItems, ...selectedEditItems], [basketItems, selectedEditItems]);
   const columnDefs = useMemo(() => {
     return [

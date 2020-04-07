@@ -38,7 +38,7 @@ export const requestBasket = (basketId,tab) => {
 		if(tab === TabOptions.DISPLAY) {
 		    dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
 		} else {
-			dispatch(setEditItems(basketId, jsonResult?.Items ?? []));
+			dispatch(setEditItems(jsonResult?.Items ?? []));
 			//dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
 		}
 	}

@@ -18,7 +18,7 @@ const Tab = props => {
   return (
     <div className={styles.root}>
       <button className={styles.button} onClick={onClickView}>
-        View
+        Explorer
       </button>
       <button className={styles.button} onClick={onClickEdit}>
         Edit

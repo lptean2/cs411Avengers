@@ -35,6 +35,7 @@ const ItemSelector = props => {
       <AgGridReact
         columnDefs={columnDefs}
         rowData={allItems}
+        rowHeight={45}
         defaultColDef={defaultColDef}
         frameworkComponents={frameworkComponents}
       />
