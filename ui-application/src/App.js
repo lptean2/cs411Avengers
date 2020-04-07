@@ -52,9 +52,6 @@ function App() {
             <>
             <h1 className={styles.title}>CPI Explorer</h1>
             <div className={styles.creator}>
-              <BasketSelector/>
-            </div>
-            <div className={styles.creator}>
               <BasketCreator/>
             </div>
             <div className={styles.content}>
