@@ -10,6 +10,7 @@ import Tab from "./components/Tab";
 import {Tab as TabOptions} from "./state/app/Tab";
 import {requestAllItems, requestAllBaskets} from "./state/data/actions";
 import styles from './App.module.css';
+import RegionSelector from "./components/RegionSelector";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,9 +36,14 @@ function App() {
         {tab === TabOptions.DISPLAY && (
             <>
             <h1 className={styles.title}>CPI Explorer</h1>
-            <div className={styles.creator}>
-              <BasketSelector/>
-            </div>
+              <div className={styles.selectors}>
+                <div className={styles.selector}>
+                  <BasketSelector/>
+                </div>
+                <div className={styles.selector}>
+                  <RegionSelector/>
+                </div>
+              </div>
             <div className={styles.content}>
               <div className={styles.middle}>
                 <BasketsChart/>

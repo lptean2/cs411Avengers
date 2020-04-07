@@ -4,6 +4,7 @@ import { Multiselect } from "multiselect-react-dropdown";
 import {setBaskets} from '../../state/app/actions';
 import {requestBasket} from "../../state/data/actions";
 import {Tab as TabOptions} from "../../state/app/Tab";
+import styles from "./BasketSelector.module.css";
 
 const BasketSelector = props => {
   const allBaskets = useSelector(state => state.data.allBaskets);
@@ -23,9 +24,10 @@ const BasketSelector = props => {
 
   return (
     <div>
-      <h3>Available Baskets</h3>
+      <div className={styles.label}>Available Baskets:</div>
       <Multiselect
         options={allBaskets}
+        placeholder="Select Basket..."
         displayValue="Name"
         id="ID"
         singleSelect={tab===TabOptions.EDIT}

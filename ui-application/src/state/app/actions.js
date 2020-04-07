@@ -4,6 +4,12 @@ export const addItem = (itemId) => ({
   itemId,
 });
 
+export const SET_REGION_ID = 'app/SET_REGION_ID';
+export const setRegionId = (regionId) => ({
+  type: SET_REGION_ID,
+  regionId,
+});
+
 export const SET_BASKETS = 'app/SET_BASKETS';
 export const setBaskets = (basketIds) => ({
   type: SET_BASKETS,
