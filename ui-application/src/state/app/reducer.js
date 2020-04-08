@@ -1,4 +1,4 @@
-import {ADD_ITEM, SET_TAB, SET_BASKETS, SET_BASKET_ITEMS} from "./actions";
+import {ADD_ITEM, SET_TAB, SET_BASKETS, SET_BASKET_ITEMS, REMOVE_BASKET_ITEMS} from "./actions";
 import {Tab} from "./Tab";
 import {produce} from "immer";
 
@@ -23,6 +23,9 @@ const appReducer = produce((state = initialState, action) => {
       break;
     case SET_BASKET_ITEMS:
       state.basketItems[action.basketId] = action.items;
+      break;
+    case REMOVE_BASKET_ITEMS:
+      delete state.basketItems[action.basketId];
       break;
     default:
       return state;

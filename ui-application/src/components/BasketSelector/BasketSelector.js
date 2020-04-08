@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Multiselect } from "multiselect-react-dropdown";
-import {setBaskets} from '../../state/app/actions';
+import {setBaskets, removeBasketItems} from '../../state/app/actions';
 import {requestBasket} from "../../state/data/actions";
 import {Tab as TabOptions} from "../../state/app/Tab";
 
@@ -10,16 +10,19 @@ const BasketSelector = props => {
   const dispatch = useDispatch();
   const tab = useSelector(state => state.app.tab);
 
-
   const handleSelect = (selectedList, selectedBasket) => {
-    console.log(selectedList);
-    console.log(selectedBasket);
     dispatch(setBaskets(selectedList.map(obj => {
       return obj.ID
     })));
     dispatch(requestBasket(selectedBasket.ID,tab)); 
   };
 
+  const handleRemove = (selectedList, removedBasket) => {
+    dispatch(setBaskets(selectedList.map(obj => {
+      return obj.ID
+    })));
+    dispatch(removeBasketItems(removedBasket.ID));
+  };
 
   return (
     <div>
@@ -30,6 +33,7 @@ const BasketSelector = props => {
         id="ID"
         singleSelect={tab===TabOptions.EDIT}
         onSelect={handleSelect}
+        onRemove={handleRemove}
       />
     </div>
   )

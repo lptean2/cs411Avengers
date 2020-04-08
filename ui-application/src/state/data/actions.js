@@ -39,7 +39,6 @@ export const requestBasket = (basketId,tab) => {
 		    dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
 		} else {
 			dispatch(setEditItems(jsonResult?.Items ?? []));
-			//dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
 		}
 	}
 };
