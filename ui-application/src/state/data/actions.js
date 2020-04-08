@@ -11,6 +11,9 @@ export const RECEIVE_ALL_BASKETS = 'data/RECEIVE_ALL_BASKETS';
 export const REQUEST_BASKET_ITEMS = 'data/REQUEST_BASKET_ITEMS';
 export const RECEIVE_BASKET_ITEMS = 'data/RECEIVE_BASKET_ITEMS';
 
+export const REQUEST_DELETE_BASKET = 'data/REQUEST_DELETE_BASKET';
+export const RECEIVE_DELETE_BASKET = 'data/REQUEST_DELETE_BASKET';
+
 export const requestAllItems = () => {
   return async (dispatch) => {
     dispatch({type: REQUEST_ALL_ITEMS});
@@ -76,3 +79,22 @@ export const requestBasket = (basketId) => {
 		}
 	}
 };
+
+export const requestDeleteBasket = (basketId) => {
+	return async (dispatch, getState) => {
+		dispatch({type: REQUEST_DELETE_BASKET, basketId});
+		const result = await window.fetch(
+			'http://avengers1.web.illinois.edu/cpi_api/basket/' + basketId,
+			{
+				method: 'DELETE',
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			});
+		const jsonResult = await result.json();
+		dispatch({type: RECEIVE_DELETE_BASKET, basketId});
+		dispatch(requestAllBaskets())
+
+	}
+}

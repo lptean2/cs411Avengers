@@ -2,7 +2,9 @@ import {
   RECEIVE_ALL_ITEMS,
   REQUEST_ALL_ITEMS,
   REQUEST_ALL_BASKETS,
-  RECEIVE_ALL_BASKETS, REQUEST_BASKET_ITEMS, RECEIVE_BASKET_ITEMS
+  RECEIVE_ALL_BASKETS, REQUEST_BASKET_ITEMS, RECEIVE_BASKET_ITEMS,
+  REQUEST_DELETE_BASKET,
+  RECEIVE_DELETE_BASKET
 } from "./actions";
 import {produce} from 'immer';
 
@@ -13,6 +15,7 @@ const initialState = {
   allItems: [],
   fetchingBaskets: false,
   allBaskets: [],
+  deletingBasket: false,
 };
 
 const dataReducer = produce((state = initialState, action) => {
@@ -38,6 +41,12 @@ const dataReducer = produce((state = initialState, action) => {
     case RECEIVE_BASKET_ITEMS:
       state.fetchingBasketItems[action.basketId] = false;
       state.basketItems[action.basketId] = action.items;
+      break;
+    case REQUEST_DELETE_BASKET:
+      state.deletingBasket = true;
+      break;
+    case RECEIVE_DELETE_BASKET:
+      state.deletingBasket = false;
       break;
     default:
       return state;

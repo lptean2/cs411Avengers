@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {requestSaveBasket} from "../../state/data/actions";
+import {requestSaveBasket, requestDeleteBasket} from "../../state/data/actions";
 import styles from './BasketCreator.module.css';
 import BasketSelector from "../BasketSelector";
 
@@ -25,6 +25,11 @@ const BasketCreator = props => {
 
   const handleChange = useCallback((e) => setName(e.target.value), []);
 
+  const handleDelete = useCallback((e) => {
+    e.preventDefault();
+    dispatch(requestDeleteBasket(selectedBasket?.ID))
+  })
+
   return (
     <div className={styles.root}>
       <div>
@@ -33,6 +38,9 @@ const BasketCreator = props => {
       <div>
         <button onClick={handleSave}>
           Save
+        </button>
+        <button onClick={handleDelete}>
+          Delete
         </button>
       </div>
       <div className={styles.divider}/>
