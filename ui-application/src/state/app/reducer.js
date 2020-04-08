@@ -16,7 +16,7 @@ const appReducer = produce((state = initialState, action) => {
       state.selectedItemIds.push(action.itemId);
       break;
     case SET_REGION_ID:
-      state.regionId = action.regionId;
+      state.selectedRegionId = action.regionId;
       break;
     case SET_TAB:
       state.tab = action.tab;

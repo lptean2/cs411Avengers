@@ -26,10 +26,12 @@
   flex-direction: row;
   width: 100%;
 }
-.middle {
+.chart {
   border: 1px solid #0900ff;
   flex: 1 1 auto;
+  min-width: 50%;
 }
 .side {
+  width: 400px;
   border: 1px solid #ff000d;
 }
