@@ -29,8 +29,42 @@ export const requestAllBaskets = () => {
 	}
 };
 
-export const requestBasket = (basketId,tab) => {
+export const REQUEST_SAVE_BASKET = 'data/REQUEST_SAVE_BASKET';
+export const RECEIVE_SAVE_BASKET = 'data/RECEIVE_SAVE_BASKET';
+export const requestSaveBasket = ({items, basketName, basketId}) => {
 	return async (dispatch) => {
+		dispatch({type: REQUEST_SAVE_BASKET});
+		const body = {
+			Items: items.map(({ItemID, Quantity}) => {
+				return {ID: ItemID, Quantity: Quantity}
+			}),
+		};
+		if (basketId !== undefined) {
+			body.ID = basketId;
+		}
+		if (basketName !== undefined) {
+			body.Name = basketName;
+		}
+		const result = await window.fetch(
+			'http://avengers1.web.illinois.edu/cpi_api/basket',
+			{
+				method: 'PUT',
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(body),
+			});
+		dispatch({type: RECEIVE_SAVE_BASKET});
+		const jsonResult = await result.json();
+		dispatch(requestBasket(jsonResult?.ID));
+	}
+};
+
+export const requestBasket = (basketId) => {
+	return async (dispatch, getState) => {
+		const state = getState();
+		const tab = state.app.tab;
 		dispatch({type: REQUEST_BASKET_ITEMS, basketId});
 		const result = await window.fetch('http://avengers1.web.illinois.edu/cpi_api/basket/' + basketId);
 		const jsonResult = await result.json();

@@ -1,0 +1,11 @@
+.root {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+.selector {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 300px;
+}

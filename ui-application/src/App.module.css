@@ -8,8 +8,17 @@
 .title {
 
 }
-.creator {
-
+.selectors {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.selector {
+  width: 500px;
+  max-width: 50%;
+  margin: 5px;
 }
 .content {
   flex: 1 1 auto;
@@ -17,10 +26,12 @@
   flex-direction: row;
   width: 100%;
 }
-.middle {
+.chart {
   border: 1px solid #0900ff;
   flex: 1 1 auto;
+  min-width: 50%;
 }
 .side {
+  width: 400px;
   border: 1px solid #ff000d;
 }

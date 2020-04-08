@@ -1,56 +1,51 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { Multiselect } from "multiselect-react-dropdown";
-import {requestAllBaskets} from "../../state/data/actions";
+import {requestSaveBasket} from "../../state/data/actions";
+import styles from './BasketCreator.module.css';
+import BasketSelector from "../BasketSelector";
 
 
 const BasketCreator = props => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
-  const selectedItemIds = useSelector(state => state.app.selectedItemIds);
+  const selectedEditItems = useSelector(state => state.edit.selectedEditItems);
+  const selectedBasketId = useSelector(state => state.app.selectedBasketIds)?.[0];
+  const allBaskets = useSelector(state => state.data.allBaskets);
+  const selectedBasket = allBaskets.find(({ID}) => ID === selectedBasketId);
 
-  const handleSubmit = (e) => {
+  const handleSaveAs = useCallback((e) => {
     e.preventDefault();
-    const basketItems = selectedItemIds.map(itemId => {
-      return {ID: itemId, Quantity: 1}
-    });
+    dispatch(requestSaveBasket({items: selectedEditItems, basketName: name}));
+  }, [selectedEditItems, name, dispatch]);
 
-    fetch(
-      'http://avengers1.web.illinois.edu/cpi_api/basket',
-      {
-        method: 'PUT',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(
-          {
-            Name: name,
-            Items: basketItems
-          }
-        )
-      })
-      .then(res => res.json())
-      .then(data => {
-        dispatch(requestAllBaskets())
-      });
-  };
+  const handleSave = useCallback((e) => {
+    e.preventDefault();
+    dispatch(requestSaveBasket({items: selectedEditItems, basketId: selectedBasket?.ID, basketName: selectedBasket?.Name}));
+  }, [selectedEditItems, selectedBasket, dispatch]);
 
-  const handleChange = (e) => {
-    setName(e.target.value)
-  };
+  const handleChange = useCallback((e) => setName(e.target.value), []);
 
   return (
-    <div>
-      <h3>Create new Basket:</h3>
-      <form onSubmit={handleSubmit}>
-        <label>Basket Name: </label>
-        <input
-          type="text"
-          value={name}
-          onChange={handleChange}/>
-        <input type="submit" value="Submit"/>
-      </form>
+    <div className={styles.root}>
+      <div>
+        <BasketSelector/>
+      </div>
+      <div>
+        <button onClick={handleSave}>
+          Save
+        </button>
+      </div>
+      <div className={styles.divider}/>
+      <div>Create New Basket:</div>
+      <input
+        type="text"
+        value={name}
+        placeholder={"New basket name..."}
+        onChange={handleChange}
+      />
+      <button onClick={handleSaveAs}>
+        Save As
+      </button>
     </div>
   )
 };

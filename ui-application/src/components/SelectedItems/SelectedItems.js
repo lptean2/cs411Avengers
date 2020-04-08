@@ -13,16 +13,8 @@ const frameworkComponents = {
 };
 
 const SelectedItems = props => {
-
-  const selectedBasketId = useSelector(state => state.app.selectedBasketIds)?.[0];
-  const basketItemMap = useSelector(state => state.data.basketItems);
-
-  console.log('basketItemMap', basketItemMap);
-  const basketItems = useMemo(() => basketItemMap?.[selectedBasketId] ?? [], [basketItemMap, selectedBasketId]);
   const selectedEditItems = useSelector(state => state.edit.selectedEditItems);
-  console.log("selectedEditItems", selectedEditItems);
-  //const rowData = useMemo(() => [...basketItems, ...selectedEditItems], [basketItems, selectedEditItems]);
-  const rowData = useMemo(() => [...selectedEditItems], [selectedEditItems]);
+
   const columnDefs = useMemo(() => {
     return [
       {
@@ -39,12 +31,11 @@ const SelectedItems = props => {
       }
     ]
   }, []);
-  console.log('rowData', rowData);
   return (
     <div className={[styles.root, 'ag-theme-balham'].join(' ')}>
       <AgGridReact
         columnDefs={columnDefs}
-        rowData={rowData}
+        rowData={selectedEditItems}
         defaultColDef={defaultColDef}
         frameworkComponents={frameworkComponents}
       />
