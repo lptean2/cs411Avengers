@@ -178,8 +178,21 @@ class DbBase:
         return json.dumps(self, default=lambda o: o.__dict__,
             sort_keys=True, indent=4)
 
+    @staticmethod
+    def runSQL(query, binds):
+        print('Running sql: ' + query)
+        print('binds: ' + ','.join(binds))
 
+        cursor = db.cursor()
+        cursor.execute(
+            query,
+            binds
+            )
 
+        records = cursor.fetchall()
+        db.commit();
+
+        return records
 
     @staticmethod
     def fields():
