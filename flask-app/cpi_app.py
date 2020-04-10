@@ -35,12 +35,7 @@ def getRegion(region_id):
 
 @application.route('/series', methods=['GET'])
 def getSeries():
-    parameter = {}
-    if 'ItemID' in request.args:
-        parameter['ItemID'] = request.args['ItemID']
-    if 'RegionID' in request.args:
-        parameter['RegionID'] = request.args['RegionID']
-    return lib.api_handler.getSeries(parameter)
+    return lib.api_handler.getSeries(request.args)
 
 
 @application.route('/basket/<basket_id>', methods=['GET'])

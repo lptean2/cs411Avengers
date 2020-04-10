@@ -139,3 +139,22 @@ class Basket(DbBase):
 
         for item in basket_items:
             item.delete();
+
+
+    def getSeries(self, region_id):
+        query = """SELECT
+            	P.PriceDate, sum( BI.Quantity * P.Price)
+            FROM
+            	Price P,
+            	BasketItems BI
+            WHERE
+            	P.RegionID = %s AND
+            	BI.BasketID = %s AND
+            	BI.ItemID = P.ItemID
+            GROUP BY P.PriceDate
+            ORDER BY P.PriceDate
+            """
+
+        binds = [str(region_id),str(self.ID)]
+
+        return self.runSQL(query, binds)

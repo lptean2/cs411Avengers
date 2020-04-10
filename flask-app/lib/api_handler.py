@@ -21,8 +21,48 @@ def getResultItem(name):
     abort(404)
 
 
-def getSeries(parameter):
+def getSeries(args):
+    print (args);
+    error = _validateSeriesArgs(args)
+
+    if (error):
+        return {'error':error}, 422
+
+
+    if (args.get('BasketID')):
+        return _getBasketSeries(args)
+
+
+    return _getItemsSeries(args)
+
+
+def _validateSeriesArgs(args):
+    if (not args.get('BasketID')  and not args.get('ItemID')):
+        return "BasketID or ItemID required"
+
+    if (not args.get('RegionID')):
+        return "RegionID required"
+
+
+def _getBasketSeries(args):
+    basket = Basket.loadByID(args.get('BasketID'))
+    region_id = args.get('RegionID')
+
+    if (not basket):
+        abort(422, "Basket Not Found")
+
+    return json.dumps(basket.getSeries(region_id) ,sort_keys=True, indent=4)
+
+
+def _getItemsSeries(args):
     request  = []
+
+    parameter = {}
+    if 'ItemID' in args:
+        parameter['ItemID'] = args['ItemID']
+    if 'RegionID' in args:
+        parameter['RegionID'] = args['RegionID']
+
     for key, value in parameter.items():
         local = {}
         local['name'] = key
@@ -33,7 +73,7 @@ def getSeries(parameter):
     if prices:
         for price in prices:
             output.append(price.toDict(['PriceDate', 'Price']))
-        return json.dumps(output)
+        return json.dumps(output,sort_keys=True, indent=4)
     abort(404)
 
 
@@ -60,7 +100,7 @@ def getBasket(id):
     if (basket):
         return basket.toJSON()
 
-    abort(404)
+    abort(404,"Basket Not Found")
 
 
 def deleteBasket(id):
@@ -68,7 +108,7 @@ def deleteBasket(id):
         if (basket):
             return json.dumps(basket.delete())
 
-        abort(404)
+        abort(404,"Basket Not Found")
 
 
 def getBaskets(args):
@@ -96,6 +136,8 @@ def putBasket(basket):
         basket_obj = createBasket(basket)
 
     basket_obj.setItems(basket.get('Items',[]))
+    basket_obj = basket_obj.reload()
+
     return basket_obj.toJSON()
 
 
