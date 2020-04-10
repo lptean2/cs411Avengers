@@ -27,11 +27,13 @@
   width: 100%;
 }
 .chart {
-  border: 1px solid #0900ff;
   flex: 1 1 auto;
-  min-width: 50%;
+}
+.itemsBasket {
+  width: 27em;
+  border: 1px solid #d0d0d0;
+  max-width: 50%;
 }
 .side {
-  width: 400px;
-  border: 1px solid #ff000d;
+  width: 20%;
 }

@@ -45,7 +45,6 @@ const RegionSelector = props => {
         options={regionOptions}
         placeholder="Select Region..."
         displayValue="label"
-        id="ID"
         onSelect={handleSelect}
         singleSelect
       />

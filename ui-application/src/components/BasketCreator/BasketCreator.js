@@ -28,7 +28,7 @@ const BasketCreator = props => {
   const handleDelete = useCallback((e) => {
     e.preventDefault();
     dispatch(requestDeleteBasket(selectedBasket?.ID))
-  })
+  }, [dispatch, selectedBasket]);
 
   return (
     <div className={styles.root}>

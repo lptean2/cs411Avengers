@@ -67,7 +67,7 @@ function App() {
             <div className={styles.chart}>
               <BasketsChart/>
             </div>
-            <div className={styles.side}>
+            <div className={styles.itemsBasket}>
               <ItemsBasket/>
             </div>
           </div>
