@@ -11,6 +11,7 @@ def getItem(id):
 
     abort(404)
 
+
 def getResultItem(name):
     results = Item.loadByFields([{'name': 'Name', 'value' : '%'+name+'%'}], {'Name': 'Like'})
     output = []
@@ -47,11 +48,20 @@ def _validateSeriesArgs(args):
 def _getBasketSeries(args):
     basket = Basket.loadByID(args.get('BasketID'))
     region_id = args.get('RegionID')
+    region = Region.loadByID(region_id)
 
     if (not basket):
         abort(422, "Basket Not Found")
 
-    return json.dumps(basket.getSeries(region_id) ,sort_keys=True, indent=4)
+    if (not region):
+        abort(422, "Region Not Found")
+
+    series = basket.getSeries(region_id)
+    series_dict = [];
+    for price in series:
+        series_dict.append({'date':price[0], 'price':price[1]})
+
+    return json.dumps(series_dict,sort_keys=True, indent=4)
 
 
 def _getItemsSeries(args):
