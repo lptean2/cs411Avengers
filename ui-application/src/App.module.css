@@ -24,8 +24,8 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: row;
-  width: 100%;
   justify-content: center;
+  width: 90%;
 }
 .chart {
   flex: 1 1 auto;
