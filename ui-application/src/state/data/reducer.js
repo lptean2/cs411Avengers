@@ -8,6 +8,7 @@ import {
   ADD_SERIES_DATA
 } from "./actions";
 import {produce} from 'immer';
+import {SET_TAB} from "../app/actions";
 
 const initialState = {
   basketItems: {},
@@ -22,6 +23,10 @@ const initialState = {
 
 const dataReducer = produce((state = initialState, action) => {
   switch (action.type) {
+    case SET_TAB:
+      state.seriesData = {};
+      state.basketItems = {};
+      break;
     case REQUEST_ALL_ITEMS:
       state.fetchingItems = true;
       break;

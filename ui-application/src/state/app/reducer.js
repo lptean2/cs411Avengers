@@ -24,7 +24,6 @@ const appReducer = produce((state = initialState, action) => {
       /**reset state when changing tabs**/
       state.selectedItemIds = [];
       state.selectedBasketIds = [];
-      state.selectedRegionId = null;
       state.basketItems = {};
       break;
     case SET_BASKETS:

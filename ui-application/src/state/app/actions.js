@@ -11,7 +11,7 @@ export const setRegionId = (regionId) => ({
 });
 
 export const SET_BASKETS = 'app/SET_BASKETS';
-export const setBaskets = (basketIds) => ({
+export const setSelectedBasketIds = (basketIds) => ({
   type: SET_BASKETS,
   basketIds,
 });

@@ -11,12 +11,12 @@ const ItemsBasket = props => {
         const basket = allBaskets.find(({ID}) => ID === Number(basketId));
         return (
           <div className={styles.basket} key={basketId}>
-            <div className={styles.basketName}>{basket.Name}</div>
+            <div className={styles.basketName}>{basket?.Name}</div>
             <div className={styles.qtyHeader}>Qty</div>
-            {items.map(item => (
-              <React.Fragment key={`${basket.ID}-${item.ItemID}`}>
-                <div className={styles.name}>{item.Name}</div>
-                <div className={styles.qty}>{item.Quantity}</div>
+            {items?.map(item => (
+              <React.Fragment key={`${basket?.ID}-${item?.ItemID}`}>
+                <div className={styles.name}>{item?.Name}</div>
+                <div className={styles.qty}>{item?.Quantity}</div>
               </React.Fragment>
             ))}
           </div>
