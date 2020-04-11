@@ -18,7 +18,6 @@ import moment from 'moment';
 const BasketsChart = props => {
   const allSeriesData = useSelector(state => state.data.seriesData);
   const allBaskets = useSelector(state => state.data.allBaskets);
-  console.log('allBaskets', allBaskets);
 
   const options = useMemo(() => {
     const series =  Object.entries(allSeriesData).map(([basketId, seriesData]) => {
@@ -34,7 +33,6 @@ const BasketsChart = props => {
         })
       };
     });
-    console.log("Series", series);
     return {
       title: {
         text: ''
