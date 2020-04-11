@@ -33,4 +33,4 @@ export const REMOVE_BASKET_ITEMS = 'app/REMOVE_BASKET_ITEMS';
 export const removeBasketItems = (basketId) => ({
   type: REMOVE_BASKET_ITEMS,
   basketId,
-})
+});
