@@ -1,0 +1,14 @@
+.root {
+    margin: 10px;
+}
+.button {
+    background: none;
+    border: 1px solid #b1b1b1;
+    padding: 10px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 5px;
+}
+.button:hover {
+    background: #b1b1b1;
+}

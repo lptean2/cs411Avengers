@@ -4,10 +4,10 @@ import {Tab} from "./Tab";
 import {produce} from "immer";
 
 const initialState = {
+  tab: Tab.EXPLORER,
   selectedItemIds: [],
   selectedBasketIds: [],
-  selectedRegionId: null,
-  tab: Tab.DISPLAY,
+  selectedRegionId: "0000",
   basketItems: {}
 };
 
@@ -21,7 +21,11 @@ const appReducer = produce((state = initialState, action) => {
       break;
     case SET_TAB:
       state.tab = action.tab;
+      /**reset state when changing tabs**/
+      state.selectedItemIds = [];
       state.selectedBasketIds = [];
+      state.selectedRegionId = null;
+      state.basketItems = {};
       break;
     case SET_BASKETS:
       state.selectedBasketIds = action.basketIds;

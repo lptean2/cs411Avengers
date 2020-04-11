@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Multiselect } from "multiselect-react-dropdown";
 import {setBaskets, removeBasketItems} from '../../state/app/actions';
@@ -8,6 +8,11 @@ import styles from "./BasketSelector.module.css";
 
 const BasketSelector = props => {
   const allBaskets = useSelector(state => state.data.allBaskets);
+  const selectedBasketIds = useSelector(state => state.app.selectedBasketIds);
+  const selectedBasketObjects = useMemo(() => {
+    return selectedBasketIds.map(basketId => allBaskets.find(b => b.ID === basketId));
+  }, [allBaskets, selectedBasketIds]);
+
   const dispatch = useDispatch();
   const tab = useSelector(state => state.app.tab);
 
@@ -30,6 +35,7 @@ const BasketSelector = props => {
       <div className={styles.label}>Available Baskets:</div>
       <Multiselect
         options={allBaskets}
+        selectedValues={selectedBasketObjects}
         placeholder="Select Basket..."
         displayValue="Name"
         id="ID"

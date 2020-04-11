@@ -8,7 +8,7 @@ const Tab = props => {
   const dispatch = useDispatch();
 
   const onClickView = useCallback(() => {
-    dispatch(setTab(TabOptions.DISPLAY));
+    dispatch(setTab(TabOptions.EXPLORER));
   }, [dispatch]);
 
   const onClickEdit = useCallback(() => {

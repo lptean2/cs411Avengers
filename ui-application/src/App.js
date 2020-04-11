@@ -8,7 +8,7 @@ import SelectedItems from "./components/SelectedItems";
 import ItemsBasket from "./components/ItemsBasket";
 import Tab from "./components/Tab";
 import {Tab as TabOptions} from "./state/app/Tab";
-import {requestAllBaskets, requestAllItems} from "./state/data/actions";
+import {ADD_SERIES_DATA, requestAllBaskets, requestAllItems} from "./state/data/actions";
 import styles from './App.module.css';
 
 function App() {
@@ -22,40 +22,36 @@ function App() {
     dispatch(requestAllBaskets());
   }, [dispatch]);
 
-  const basketItems = useSelector(state => state.data.basketItems);
+  const selectedBasketIds = useSelector(state => state.app.selectedBasketIds);
   const selectedRegionId = useSelector(state => state.app.selectedRegionId);
   useEffect(() => {
-    if (basketItems && selectedRegionId) {
-      const itemIDSet = new Set();
-      Object.values(basketItems).forEach(basketItemObjects => {
-        basketItemObjects.forEach(basketItemObject => {
-          itemIDSet.add(basketItemObject.ItemID);
-        });
-      });
-
-      //todo ask back end if we need to make individual calls for each itemId
-      [...itemIDSet].forEach(itemId => {
-        window.fetch(`http://avengers1.web.illinois.edu/cpi_api/series?ItemID=${itemId}&RegionID=${selectedRegionId}`)
-          .then(priceSeries => {
-            console.log("priceSeries data", priceSeries);
-            //todo: push it to state, chart it
+    if (selectedBasketIds?.length && selectedRegionId) {
+      selectedBasketIds.forEach(basketId => {
+        window.fetch(`http://avengers1.web.illinois.edu/cpi_api/series?BasketID=${basketId}&RegionID=${selectedRegionId}`)
+          .then(res => res.json())
+          .then(json => {
+            dispatch({
+              type: ADD_SERIES_DATA,
+              basketId,
+              seriesData: json,
+            })
           });
       });
     }
-  }, [basketItems, selectedRegionId]);
+  }, [selectedBasketIds, selectedRegionId, dispatch]);
 
 
   const tab = useSelector((state) => {
     return state.app.tab;
   });
 
+  //todo: just for debuggin. delete before release
   const state = useSelector(state => state);
-
   console.log('state', state);
   return (
     <div className={styles.root}>
       <Tab/>
-      {tab === TabOptions.DISPLAY && (
+      {tab === TabOptions.EXPLORER && (
         <>
           <h1 className={styles.title}>CPI Explorer</h1>
           <div className={styles.selectors}>
