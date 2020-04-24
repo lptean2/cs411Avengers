@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {requestSaveBasket, requestDeleteBasket} from "../../state/data/actions";
 import styles from './BasketCreator.module.css';
 import BasketSelector from "../BasketSelector";
+import {setSelectedBasketIds} from "../../state/app/actions";
 
 
 const BasketCreator = props => {
@@ -27,6 +28,7 @@ const BasketCreator = props => {
 
   const handleDelete = useCallback((e) => {
     e.preventDefault();
+    dispatch(setSelectedBasketIds([]));
     dispatch(requestDeleteBasket(selectedBasket?.ID))
   }, [dispatch, selectedBasket]);
 

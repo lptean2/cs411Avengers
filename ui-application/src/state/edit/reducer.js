@@ -32,7 +32,6 @@ const editReducer = produce((state = initialState, action) => {
       break;
     case SET_EDIT_ITEMS:
       state.selectedEditItems = action.editItems;
-      console.log("in Set Edit Items ",action.editItems);
       break;
     default:
       return state;

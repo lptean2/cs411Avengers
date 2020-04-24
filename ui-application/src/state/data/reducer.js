@@ -4,9 +4,11 @@ import {
   REQUEST_ALL_BASKETS,
   RECEIVE_ALL_BASKETS, REQUEST_BASKET_ITEMS, RECEIVE_BASKET_ITEMS,
   REQUEST_DELETE_BASKET,
-  RECEIVE_DELETE_BASKET
+  RECEIVE_DELETE_BASKET,
+  ADD_SERIES_DATA,
 } from "./actions";
 import {produce} from 'immer';
+import {SET_TAB, REMOVE_BASKET_ITEMS} from "../app/actions";
 
 const initialState = {
   basketItems: {},
@@ -16,10 +18,15 @@ const initialState = {
   fetchingBaskets: false,
   allBaskets: [],
   deletingBasket: false,
+  seriesData: {},
 };
 
 const dataReducer = produce((state = initialState, action) => {
   switch (action.type) {
+    case SET_TAB:
+      state.seriesData = {};
+      state.basketItems = {};
+      break;
     case REQUEST_ALL_ITEMS:
       state.fetchingItems = true;
       break;
@@ -47,6 +54,12 @@ const dataReducer = produce((state = initialState, action) => {
       break;
     case RECEIVE_DELETE_BASKET:
       state.deletingBasket = false;
+      break;
+    case ADD_SERIES_DATA:
+      state.seriesData[action.basketId] = action.seriesData;
+      break;
+    case REMOVE_BASKET_ITEMS:
+      delete state.seriesData[action.basketId];
       break;
     default:
       return state;

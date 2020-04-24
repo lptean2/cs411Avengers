@@ -12,7 +12,9 @@ export const REQUEST_BASKET_ITEMS = 'data/REQUEST_BASKET_ITEMS';
 export const RECEIVE_BASKET_ITEMS = 'data/RECEIVE_BASKET_ITEMS';
 
 export const REQUEST_DELETE_BASKET = 'data/REQUEST_DELETE_BASKET';
-export const RECEIVE_DELETE_BASKET = 'data/REQUEST_DELETE_BASKET';
+export const RECEIVE_DELETE_BASKET = 'data/RECEIVE_DELETE_BASKET';
+
+export const ADD_SERIES_DATA = 'data/ADD_SERIES_DATA';
 
 export const requestAllItems = () => {
   return async (dispatch) => {
@@ -61,6 +63,7 @@ export const requestSaveBasket = ({items, basketName, basketId}) => {
 		dispatch({type: RECEIVE_SAVE_BASKET});
 		const jsonResult = await result.json();
 		dispatch(requestBasket(jsonResult?.ID));
+		dispatch(requestAllBaskets());
 	}
 };
 
@@ -72,7 +75,7 @@ export const requestBasket = (basketId) => {
 		const result = await window.fetch('http://avengers1.web.illinois.edu/cpi_api/basket/' + basketId);
 		const jsonResult = await result.json();
 		dispatch({type: RECEIVE_BASKET_ITEMS, basketId, items: jsonResult.Items});
-		if(tab === TabOptions.DISPLAY) {
+		if(tab === TabOptions.EXPLORER) {
 		    dispatch(setBasketItems(basketId, jsonResult?.Items ?? []));
 		} else {
 			dispatch(setEditItems(jsonResult?.Items ?? []));
@@ -82,8 +85,8 @@ export const requestBasket = (basketId) => {
 
 export const requestDeleteBasket = (basketId) => {
 	return async (dispatch, getState) => {
-		dispatch({type: REQUEST_DELETE_BASKET, basketId});
-		const result = await window.fetch(
+		dispatch({type: REQUEST_DELETE_BASKET});
+		await window.fetch(
 			'http://avengers1.web.illinois.edu/cpi_api/basket/' + basketId,
 			{
 				method: 'DELETE',
@@ -92,9 +95,7 @@ export const requestDeleteBasket = (basketId) => {
 					'Content-Type': 'application/json'
 				},
 			});
-		const jsonResult = await result.json();
-		dispatch({type: RECEIVE_DELETE_BASKET, basketId});
+		dispatch({type: RECEIVE_DELETE_BASKET});
 		dispatch(requestAllBaskets())
-
 	}
-}
+};

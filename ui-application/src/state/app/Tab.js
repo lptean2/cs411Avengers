@@ -1,2 +1,4 @@
-export const Tab = {DISPLAY: 'DISPLAY',
-					EDIT: 'EDIT'}
+export const Tab = {
+  EXPLORER: 'EXPLORER',
+  EDIT: 'EDIT'
+};

@@ -38,6 +38,7 @@ const SelectedItems = props => {
         rowData={selectedEditItems}
         defaultColDef={defaultColDef}
         frameworkComponents={frameworkComponents}
+        rowHeight={45}
       />
     </div>
   )

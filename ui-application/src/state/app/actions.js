@@ -11,7 +11,7 @@ export const setRegionId = (regionId) => ({
 });
 
 export const SET_BASKETS = 'app/SET_BASKETS';
-export const setBaskets = (basketIds) => ({
+export const setSelectedBasketIds = (basketIds) => ({
   type: SET_BASKETS,
   basketIds,
 });
@@ -33,4 +33,4 @@ export const REMOVE_BASKET_ITEMS = 'app/REMOVE_BASKET_ITEMS';
 export const removeBasketItems = (basketId) => ({
   type: REMOVE_BASKET_ITEMS,
   basketId,
-})
+});

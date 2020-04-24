@@ -24,7 +24,8 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: row;
-  width: 100%;
+  justify-content: center;
+  width: 90%;
 }
 .chart {
   flex: 1 1 auto;
@@ -33,7 +34,20 @@
   width: 27em;
   border: 1px solid #d0d0d0;
   max-width: 50%;
+  background: #e2e2e2;
 }
 .side {
-  width: 20%;
+  flex: 1 1 auto;
+  max-width: 600px;
+}
+
+:global(.ag-react-container) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+:global(.ag-theme-balham .ag-cell){
+  line-height: 40px !important;
 }
