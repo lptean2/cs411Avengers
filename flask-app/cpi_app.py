@@ -37,6 +37,10 @@ def getRegion(region_id):
 def getSeries():
     return lib.api_handler.getSeries(request.args)
 
+@application.route('/trends', methods=['GET'])
+def getTrends():
+    return lib.api_handler.getTrends(request.args)
+
 
 @application.route('/basket/<basket_id>', methods=['GET'])
 def getBasket(basket_id):

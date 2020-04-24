@@ -1,7 +1,7 @@
 from __future__ import absolute_import
-from lib.dbo.DbObjects import Item, Region, Basket, BasketItems
 from lib.dbo.DbObjects import Item, Region, Basket, BasketItems, Price
 from flask import abort
+import lib.trends
 import json
 
 def getItem(id):
@@ -85,6 +85,37 @@ def _getItemsSeries(args):
             output.append(price.toDict(['PriceDate', 'Price']))
         return json.dumps(output,sort_keys=True, indent=4)
     abort(404)
+
+
+def getTrends(args):
+    print (args);
+    error = _validateTrendsArgs(args)
+
+    if (error):
+        return {'error':error}, 422
+
+    terms = []
+
+    if (args.get('BasketID')):
+        items = BasketItems.loadByFields([
+            {'name':'BasketID', 'value': 4}
+        ])
+
+        for item in items:
+            terms.append(item.SearchTerm)
+
+    else:
+        item = Item.loadByID(args.get('ItemID'))
+        terms = [item.SearchTerm]
+
+    return lib.trends.getTrendData(terms)
+
+
+
+def _validateTrendsArgs(args):
+    if (not args.get('BasketID')  and not args.get('ItemID')):
+        return "BasketID or ItemID required"
+
 
 
 def getItems(args):

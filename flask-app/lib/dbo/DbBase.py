@@ -179,7 +179,7 @@ class DbBase:
             sort_keys=True, indent=4)
 
     @staticmethod
-    def runSQL(query, binds):
+    def runSQL(query, binds, opts={}):
         print('Running sql: ' + query)
         print('binds: ' + ','.join(binds))
 

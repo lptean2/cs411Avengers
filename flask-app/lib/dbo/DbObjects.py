@@ -6,7 +6,7 @@ from lib.dbo.DbBase import DbBase
 class Item(DbBase):
     @staticmethod
     def fields():
-        return ['ID','Name']
+        return ['ID','Name', 'SearchTerm']
 
     @staticmethod
     def tableName():
@@ -70,6 +70,7 @@ class BasketItems(DbBase):
     def selectFields(cls):
         fields = cls.fields()
         fields.append('Name')
+        fields.append('SearchTerm')
         return fields
 
 
