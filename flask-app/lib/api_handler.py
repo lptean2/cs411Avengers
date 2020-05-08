@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from lib.dbo.DbObjects import Item, Region, Basket, BasketItems, Price
+from lib.dbo.DbObjects import Item, Region, Basket, BasketItems, Price, BasketSeriesView, ItemSeriesView
 from flask import abort
 import lib.trends
 import json
@@ -193,3 +193,15 @@ def createBasket(basket):
     obj_basket = Basket({'Name':basket['Name']})
     updated_basket = obj_basket.save({'return_self':1})
     return updated_basket
+
+
+def getBasketMetadata(basket_id, region_id):
+    results = BasketSeriesView.loadByFields([{'name': 'BasketID', 'value' : basket_id}], {'RegionID': region_id})
+    if results:
+        return results[0].toJSON()
+
+
+def getItemMetadata(item_id, region_id):
+    results = ItemSeriesView.loadByFields([{'name': 'ItemID', 'value' : item_id}], {'RegionID': region_id})
+    if results:
+        return results[0].toJSON()

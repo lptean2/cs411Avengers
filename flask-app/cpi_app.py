@@ -62,11 +62,11 @@ def putBasket():
     return lib.api_handler.putBasket(request.json)
 
 
-    # parser = reqparse.RequestParser()
-    # parser.add_argument('key1')
-    # args = parser.parse_args()
+@application.route('/metadata/basket/<basket_id>/<region_id>', methods=['GET'])
+def getBasketMetadata(basket_id,region_id):
+    return lib.api_handler.getBasketMetadata(basket_id,region_id)
 
-    #return args['key1']
-    #return get();
 
-#application.run()
+@application.route('/metadata/item/<item_id>/<region_id>', methods=['GET'])
+def getItemMetadata(item_id,region_id):
+    return lib.api_handler.getItemMetadata(item_id,region_id)

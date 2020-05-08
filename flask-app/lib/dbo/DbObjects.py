@@ -159,3 +159,23 @@ class Basket(DbBase):
         binds = [str(region_id),str(self.ID)]
 
         return self.runSQL(query, binds)
+
+
+class BasketSeriesView(DbBase):
+    @staticmethod
+    def fields():
+        return ['BasketID', 'RegionID', 'MinPrice', 'MaxPrice', 'StartDate', 'EndDate']
+
+    @staticmethod
+    def tableName():
+        return 'BasketSeriesView'
+
+
+class ItemSeriesView(DbBase):
+    @staticmethod
+    def fields():
+        return ['ItemID', 'RegionID', 'MinPrice', 'MaxPrice', 'StartDate', 'EndDate']
+
+    @staticmethod
+    def tableName():
+        return 'ItemSeriesView'
