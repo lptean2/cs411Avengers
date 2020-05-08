@@ -98,7 +98,7 @@ def getTrends(args):
 
     if (args.get('BasketID')):
         items = BasketItems.loadByFields([
-            {'name':'BasketID', 'value': 4}
+            {'name':'BasketID', 'value': args.get('BasketID')}
         ])
 
         for item in items:
