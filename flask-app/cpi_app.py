@@ -70,3 +70,7 @@ def getBasketMetadata(basket_id,region_id):
 @application.route('/metadata/item/<item_id>/<region_id>', methods=['GET'])
 def getItemMetadata(item_id,region_id):
     return lib.api_handler.getItemMetadata(item_id,region_id)
+
+@application.route('/metadata/basket_items/<basket_id>/<region_id>', methods=['GET'])
+def getBasketItemMetadata(basket_id,region_id):
+    return lib.api_handler.getBasketItemMetadata(basket_id,region_id)
