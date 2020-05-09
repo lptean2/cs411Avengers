@@ -28,7 +28,7 @@ const initialState = {
   fetchingPriceSeriesData: {},
   priceSeriesData: {},
   fetchingBasketTrendSeriesData: {},
-  basketTrendSeriesData: {},
+  trendSeriesData: {},
   fetchingBasketMetaData: {},
   basketMetaData: {},
 };
@@ -78,7 +78,7 @@ const dataReducer = produce((state = initialState, action) => {
       break;
     case RECEIVE_BASKET_TREND_SERIES_DATA:
       state.fetchingBasketTrendSeriesData[action.basketId] = false;
-      state.basketTrendSeriesData[action.basketId] = action.basketTrendSeriesData;
+      state.trendSeriesData[action.basketId] = action.trendSeriesData;
       break;
     case REQUEST_BASKET_META_DATA:
       state.fetchingBasketMetaData[action.basketId] = true;

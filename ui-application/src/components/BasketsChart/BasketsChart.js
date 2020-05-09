@@ -17,39 +17,82 @@ import moment from 'moment';
  */
 const BasketsChart = props => {
   const priceSeriesData = useSelector(state => state.data.priceSeriesData);
-  const allBaskets = useSelector(state => state.data.allBaskets);
-  const region = useSelector(state => state.app.selectedRegionId);
+  const trendSeriesData = useSelector(state => state.data.trendSeriesData);
+  const basketMetaData = useSelector(state => state.data.basketMetaData);
 
-  const options = useMemo(() => {
-    const basketNames = [];
-    const series =  Object.entries(priceSeriesData).map(([basketId, seriesData]) => {
+  const allBaskets = useSelector(state => state.data.allBaskets);
+
+  const priceSeries = useMemo(() => {
+    return Object.entries(priceSeriesData).map(([basketId, seriesData]) => {
       const basketObject = allBaskets.find(b => String(b.ID) === basketId) ?? {};
-      const label = basketObject?.Name ?? basketId;
-      basketNames.push(label);
       return {
-        name: label,
+        name: `${basketObject?.Name ?? basketId} AVG Price`,
         data: seriesData.map(({date, price}) => {
           const dateString = String(date);
           const year = dateString.slice(0, 4);
           const month = dateString.slice(4, 6);
           const dateMoment = moment(`${year}-${Number(month) + 1}`, "YYYY-MM");
           return [dateMoment.valueOf(), price]
-        })
+        }),
+        yAxis: 0,
       };
     });
+  }, [allBaskets, priceSeriesData]);
+  const trendSeries = useMemo(() => {
+    const series = [];
+    const itemSet = new Set();
+    Object.entries(trendSeriesData).forEach(([basketId, basketTrendSeriesData]) => {
+      Object.entries(basketTrendSeriesData).forEach(([itemName, itemTrendSeriesData]) => {
+        if (!itemSet.has(itemName)) {
+          itemSet.add(itemName);
+          series.push({
+            name: `${itemName} Trend`,
+            yAxis: 1,
+            data: Object.entries(itemTrendSeriesData).map(([date, value]) => {
+              const dateString = String(date);
+              const year = dateString.slice(0, 4);
+              const month = dateString.slice(4, 6);
+              const dateMoment = moment(`${year}-${month}`, "YYYY-MM");
+              return [dateMoment.valueOf(), value]
+            }),
+          });
+        }
+      });
+    });
+    return series;
+  }, [trendSeriesData]);
+
+
+  const options = useMemo(() => {
     return {
       title: {
-        text: basketNames.join(', '),
+        text: null,
       },
       subtitle: {
-        text: ""
+        text: null,
       },
       tooltip: {
         valueDecimals: 2,
       },
-      series,
+      yAxis: [
+        {
+          title: {
+            text: 'Price',
+          },
+        },
+        {
+          title: {
+            text: 'Google Trend Score',
+          },
+          opposite: false,
+        }
+      ],
+      series: [
+        ...priceSeries,
+        ...trendSeries,
+      ],
     }
-  }, [priceSeriesData, allBaskets]);
+  }, [priceSeries, trendSeries]);
 
   return (
     <div className={styles.root}>

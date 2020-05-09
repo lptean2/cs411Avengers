@@ -92,7 +92,7 @@ export const requestBasketTrends = (basketId) => {
 		dispatch({
 			type: RECEIVE_BASKET_TREND_SERIES_DATA,
 			basketId,
-			basketTrendSeriesData:  await result.json()
+			trendSeriesData:  await result.json()
 		});
 	}
 };
