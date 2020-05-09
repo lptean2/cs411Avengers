@@ -112,15 +112,30 @@ class DbBase:
             ' VALUES (' + ','.join(insert_values) + ')' + \
             ' ON DUPLICATE KEY UPDATE  ' + ','.join(updates)
 
-        # cursor = db.cursor()
-        cursor = self.executeQuery(
-            update_statement,
-            insert_binds + update_binds
-            )
+        cursor = None
+        new_id = None
 
-        # If it is a new row, lastrowid will be populated, if not, use the Item
-        new_id = cursor.lastrowid
-        db_batch.commit()
+        if (opts.get("use_cached")):
+            cursor = self.executeQuery(
+                update_statement,
+                insert_binds + update_binds
+                )
+            # If it is a new row, lastrowid will be populated, if not, use the Item
+            new_id = cursor.lastrowid
+            db_batch.commit()
+        else:
+            print('Running sql: ' + update_statement)
+            print('binds: ' + ','.join(insert_binds + update_binds))
+            cursor = db.cursor()
+            cursor.execute(
+                update_statement,
+                insert_binds + update_binds
+                )
+            # If it is a new row, lastrowid will be populated, if not, use the Item
+            new_id = cursor.lastrowid
+            db.commit()
+
+
 
         # If we are creating the DB row, load into an object
         if (opts.get('return_self')):
