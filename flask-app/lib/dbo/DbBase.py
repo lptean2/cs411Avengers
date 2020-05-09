@@ -112,12 +112,8 @@ class DbBase:
             ' VALUES (' + ','.join(insert_values) + ')' + \
             ' ON DUPLICATE KEY UPDATE  ' + ','.join(updates)
 
-        print('Running sql: ' + update_statement)
-        print('binds: ' + ','.join(insert_binds + update_binds))
 
-        cursor = self.getCursor(update_statement)
-
-        cursor.execute(
+        cursor = self.executeQuery(
             update_statement,
             insert_binds + update_binds
             )
@@ -145,6 +141,28 @@ class DbBase:
             return cursor
 
 
+    def refreshCursor(self, query):
+        print ("Re-Preparing cursor")
+        cursor = db.cursor(prepared=True)
+        self.cached_cursors[query] = cursor
+        return cursor
+
+
+    def executeQuery(self, query, binds=[]):
+        cursor = self.getCursor(query)
+
+        print('Running sql: ' + query)
+        print('binds: ' + ','.join(binds))
+        try:
+            cursor.execute(query,binds)
+        except mysql.connector.Error as err:
+            if (err.errno == 1615):
+                cursor = refreshCursor(query)
+                cursor.execute(query,binds)
+
+        return cursor
+
+
     def reload(self):
         pks = []
 
@@ -169,11 +187,7 @@ class DbBase:
         delete_statement = 'DELETE FROM ' + self.tableName() + \
             ' WHERE ' + ' AND '.join(delete_wheres)
 
-        print('Running sql: ' + delete_statement)
-        print('binds: ' + ','.join(delete_values))
-
-        cursor = self.getCursor(delete_statement)
-        cursor.execute(
+        cursor = self.executeQuery(
             delete_statement,
             delete_values
             )
@@ -203,11 +217,7 @@ class DbBase:
 
     @staticmethod
     def runSQL(query, binds, opts={}):
-        print('Running sql: ' + query)
-        print('binds: ' + ','.join(binds))
-
-        cursor = self.getCursor(query)
-        cursor.execute(
+        cursor = self.executeQuery(
             query,
             binds
             )
