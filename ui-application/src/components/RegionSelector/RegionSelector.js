@@ -32,6 +32,17 @@ const regionOptions = [
   // {ID: 'A421', label:'Los Angeles-Riverside-Orange County, CA'},
 ];
 
+const selectorStyle = {
+  multiselectContainer: {
+      width: "150px",
+      "maxHeight": "30px"
+    },
+  searchBox: {
+    "fontSize": "10px",
+    "maxHeight": "10px"
+  },
+};
+
 const RegionSelector = props => {
   const dispatch = useDispatch();
   const handleSelect = (_, selectedRegion) => {
@@ -47,6 +58,7 @@ const RegionSelector = props => {
         selectedValues={[regionOptions[0]]}
         onSelect={handleSelect}
         singleSelect
+        style={selectorStyle}
       />
     </div>
   )

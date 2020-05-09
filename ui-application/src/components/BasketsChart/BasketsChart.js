@@ -47,6 +47,9 @@ const BasketsChart = props => {
       tooltip: {
         valueDecimals: 2,
       },
+      legend: {
+        enabled: true
+    },
       series,
     }
   }, [allSeriesData, allBaskets]);

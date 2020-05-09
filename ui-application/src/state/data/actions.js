@@ -99,3 +99,46 @@ export const requestDeleteBasket = (basketId) => {
 		dispatch(requestAllBaskets())
 	}
 };
+
+export const REQUEST_SERIES_DATA = 'data/REQUEST_SERIES_DATA';
+export const requestSeriesData = () => {
+	return async (dispatch,getState) => {
+		const state = getState();
+		const selectedBasketIds = state.app.selectedBasketIds;
+		const selectedRegionId = state.app.selectedRegionId;
+		const basketBreakoutToggle = state.app.displayBasketBreakout;
+        const selectedBasketItems = state.app.basketItems;
+        
+		if (selectedBasketIds?.length && selectedRegionId && basketBreakoutToggle === false) {
+	      selectedBasketIds.forEach(basketId => {
+	        window.fetch(`http://avengers1.web.illinois.edu/cpi_api/series?BasketID=${basketId}&RegionID=${selectedRegionId}`)
+	          .then(res => res.json())
+	          .then(json => {
+	            dispatch({
+	              type: ADD_SERIES_DATA,
+	              basketId,
+	              seriesData: json,
+	            })
+	          });
+	      });
+	    }
+	    else if(selectedBasketIds?.length && selectedRegionId && basketBreakoutToggle === true){
+	      selectedBasketIds.forEach(basketId => {
+	        if(selectedBasketItems[basketId]?.length){
+	          selectedBasketItems[basketId].forEach(item => {
+	            window.fetch(`http://avengers1.web.illinois.edu/cpi_api/series?ItemID=${item.ItemID}&RegionID=${selectedRegionId}`)
+	            .then(res => res.json())
+	            .then(json => {
+	              dispatch({
+	                type:ADD_SERIES_DATA,
+	                basketId:item.ItemID,
+	                seriesData: json.map(obj => ({date:obj.PriceDate,price:obj.Price})),
+	              })
+	            });
+	          });
+	        }
+	      })
+	    }
+	}
+
+}

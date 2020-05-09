@@ -34,3 +34,13 @@ export const removeBasketItems = (basketId) => ({
   type: REMOVE_BASKET_ITEMS,
   basketId,
 });
+
+export const DISPLAY_BASKET_BREAKOUT = 'app/DISPLAY_BASKET_BREAKOUT';
+export const displayBasketBreakout = () => ({
+	type: DISPLAY_BASKET_BREAKOUT,
+});
+
+export const REMOVE_SERIES_DATA = 'app/REMOVE_SERIES_DATA';
+export const removeSeriesData = () => ({
+	type: REMOVE_SERIES_DATA,
+});

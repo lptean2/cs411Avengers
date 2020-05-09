@@ -1,4 +1,4 @@
-import {ADD_ITEM, SET_TAB, SET_BASKETS, SET_BASKET_ITEMS, SET_REGION_ID, REMOVE_BASKET_ITEMS} from "./actions";
+import {ADD_ITEM, SET_TAB, SET_BASKETS, SET_BASKET_ITEMS, SET_REGION_ID, REMOVE_BASKET_ITEMS, DISPLAY_BASKET_BREAKOUT} from "./actions";
 
 import {Tab} from "./Tab";
 import {produce} from "immer";
@@ -8,7 +8,8 @@ const initialState = {
   selectedItemIds: [],
   selectedBasketIds: [],
   selectedRegionId: "0000",
-  basketItems: {}
+  basketItems: {},
+  displayBasketBreakout:false
 };
 
 const appReducer = produce((state = initialState, action) => {
@@ -34,6 +35,9 @@ const appReducer = produce((state = initialState, action) => {
       break;
     case REMOVE_BASKET_ITEMS:
       delete state.basketItems[action.basketId];
+      break;
+    case DISPLAY_BASKET_BREAKOUT:
+      state.displayBasketBreakout = !state.displayBasketBreakout;
       break;
     default:
       return state;

@@ -1,12 +1,14 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 import styles from './ItemsBasket.module.css';
+import BasketBreakoutToggle from "../BasketBreakoutToggle";
 
 const ItemsBasket = props => {
   const basketItems = useSelector(state => state.app.basketItems);
   const allBaskets = useSelector(state => state.data.allBaskets);
   return (
     <div className={styles.root}>
+        <BasketBreakoutToggle/>
       {Object.entries(basketItems).map(([basketId, items]) => {
         const basket = allBaskets.find(({ID}) => ID === Number(basketId));
         return (

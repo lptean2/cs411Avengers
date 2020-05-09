@@ -23,6 +23,12 @@
     align-items: center;
     line-height: 12px;
 }
+.id {
+    font-size: 0.8em;
+    display: flex;
+    align-items: left;
+    line-height:12px;
+}
 .qty {
     font-size: 0.7em;
     display: flex;
