@@ -205,3 +205,16 @@ def getItemMetadata(item_id, region_id):
     results = ItemSeriesView.loadByFields([{'name': 'ItemID', 'value' : item_id}], {'RegionID': region_id})
     if results:
         return results[0].toJSON()
+
+
+def getBasketItemMetadata(basket_id, region_id):
+    items = BasketItems.loadByFields([{'name':'BasketID','value':basket_id}])
+    if (not len(items)):
+        abort(404,"Basket Not Found Or No Items")
+
+    output = {};
+    for item in items:
+        results = ItemSeriesView.loadByFields([{'name': 'ItemID', 'value' : item.ItemID}], {'RegionID': region_id})
+        output[item.ItemID] = results[0].toDict()
+
+    return json.dumps(output)
