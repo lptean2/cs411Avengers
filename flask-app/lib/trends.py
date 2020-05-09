@@ -6,10 +6,18 @@ from pytrends.request import TrendReq
 def getTrendData(search_terms):
     pytrend = TrendReq()
 
-    pytrend.build_payload(kw_list=search_terms)
-    interest_over_time = pytrend.interest_over_time()
+    all_prepared_data = {}
+    BATCH_SIZE = 5
+    for i in range(0, len(search_terms), BATCH_SIZE):
+        batch = search_terms[i:i+BATCH_SIZE]
 
-    return _prepareInterestData(interest_over_time, search_terms)
+        pytrend.build_payload(kw_list=batch)
+        interest_over_time = pytrend.interest_over_time()
+        prepared_data = _prepareInterestData(interest_over_time, batch)
+        for term in prepared_data:
+            all_prepared_data[term] = prepared_data[term]
+
+    return all_prepared_data
 
 
 def _prepareInterestData(interest_data, search_terms):

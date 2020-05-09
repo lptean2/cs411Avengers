@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from lib.dbo.DbObjects import Item, Region, Basket, BasketItems, Price
+from lib.dbo.DbObjects import Item, Region, Basket, BasketItems, Price, BasketSeriesView, ItemSeriesView
 from flask import abort
 import lib.trends
 import json
@@ -98,7 +98,7 @@ def getTrends(args):
 
     if (args.get('BasketID')):
         items = BasketItems.loadByFields([
-            {'name':'BasketID', 'value': 4}
+            {'name':'BasketID', 'value': args.get('BasketID')}
         ])
 
         for item in items:
@@ -123,6 +123,7 @@ def getItems(args):
     return_array = []
 
     for item in items:
+        print(item.toDict())
         return_array.append(item.toDict())
 
     return json.dumps(return_array,sort_keys=True, indent=4)
@@ -193,3 +194,28 @@ def createBasket(basket):
     obj_basket = Basket({'Name':basket['Name']})
     updated_basket = obj_basket.save({'return_self':1})
     return updated_basket
+
+
+def getBasketMetadata(basket_id, region_id):
+    results = BasketSeriesView.loadByFields([{'name': 'BasketID', 'value' : basket_id}], {'RegionID': region_id})
+    if results:
+        return results[0].toJSON()
+
+
+def getItemMetadata(item_id, region_id):
+    results = ItemSeriesView.loadByFields([{'name': 'ItemID', 'value' : item_id}], {'RegionID': region_id})
+    if results:
+        return results[0].toJSON()
+
+
+def getBasketItemMetadata(basket_id, region_id):
+    items = BasketItems.loadByFields([{'name':'BasketID','value':basket_id}])
+    if (not len(items)):
+        abort(404,"Basket Not Found Or No Items")
+
+    output = {};
+    for item in items:
+        results = ItemSeriesView.loadByFields([{'name': 'ItemID', 'value' : item.ItemID}], {'RegionID': region_id})
+        output[item.ItemID] = results[0].toDict()
+
+    return json.dumps(output)

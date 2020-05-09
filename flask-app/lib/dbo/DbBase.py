@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
 import pymysql
+import mysql.connector
 import json
 import os
 
@@ -15,10 +16,19 @@ db_name = os.environ.get('FLASK_DB_NAME') or 'avengers1_cpi_sh'
 if ( db_user == 'python' and db_pw == 'password123'):
     db_pw = ''
 
+db_batch = mysql.connector.connect(
+   user=db_user,
+   database=db_name,
+   password=db_pw,
+   host=db_host
+)
+
 db = pymysql.connect(db_host,db_user,db_pw,db_name )
 #db = MySQLdb.connect("localhost","python","","cpidata" )
 
 class DbBase:
+    cached_cursors = {};
+
     def __init__(self, dict={}):
         for key in dict:
             setattr(self,key,dict[key])
@@ -39,7 +49,7 @@ class DbBase:
     # That go in the WHERE clause: WHERE name op value
     @classmethod
     def loadByFields(cls,fields=[],opts={}):
-        cursor = db.cursor()
+
         # Loop over the incoming fields
         binds = [];
         where_clauses = cls.selectWheres();
@@ -62,6 +72,7 @@ class DbBase:
         print('Running sql: ' + select_sql)
         print('binds: ' + ','.join(binds))
 
+        cursor = db.cursor()
         cursor.execute(
             select_sql,
             binds
@@ -101,18 +112,15 @@ class DbBase:
             ' VALUES (' + ','.join(insert_values) + ')' + \
             ' ON DUPLICATE KEY UPDATE  ' + ','.join(updates)
 
-        print('Running sql: ' + update_statement)
-        print('binds: ' + ','.join(insert_binds + update_binds))
-
-        cursor = db.cursor()
-        cursor.execute(
+        # cursor = db.cursor()
+        cursor = self.executeQuery(
             update_statement,
             insert_binds + update_binds
             )
 
         # If it is a new row, lastrowid will be populated, if not, use the Item
         new_id = cursor.lastrowid
-        db.commit()
+        db_batch.commit()
 
         # If we are creating the DB row, load into an object
         if (opts.get('return_self')):
@@ -120,6 +128,39 @@ class DbBase:
                 return self.loadByID(new_id)
 
             return self.reload()
+
+
+    def getCursor(self, query):
+        if (query in self.cached_cursors):
+            print("using cached cursor")
+            return self.cached_cursors[query]
+        else:
+            print ("Preparing new cursor")
+            cursor = db_batch.cursor(prepared=True)
+            self.cached_cursors[query] = cursor
+            return cursor
+
+
+    def refreshCursor(self, query):
+        print ("Re-Preparing cursor")
+        cursor = db_batch.cursor(prepared=True)
+        self.cached_cursors[query] = cursor
+        return cursor
+
+
+    def executeQuery(self, query, binds=[]):
+        cursor = self.getCursor(query)
+
+        print('Running sql: ' + query)
+        print('binds: ' + ','.join(binds))
+        try:
+            cursor.execute(query,binds)
+        except mysql.connector.Error as err:
+            if (err.errno == 1615):
+                cursor = refreshCursor(query)
+                cursor.execute(query,binds)
+
+        return cursor
 
 
     def reload(self):
@@ -145,9 +186,6 @@ class DbBase:
 
         delete_statement = 'DELETE FROM ' + self.tableName() + \
             ' WHERE ' + ' AND '.join(delete_wheres)
-
-        print('Running sql: ' + delete_statement)
-        print('binds: ' + ','.join(delete_values))
 
         cursor = db.cursor()
         cursor.execute(
@@ -182,7 +220,6 @@ class DbBase:
     def runSQL(query, binds, opts={}):
         print('Running sql: ' + query)
         print('binds: ' + ','.join(binds))
-
         cursor = db.cursor()
         cursor.execute(
             query,

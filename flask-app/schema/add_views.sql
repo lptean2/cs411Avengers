@@ -1,4 +1,4 @@
-CREATE VIEW SeriesView AS
+CREATE VIEW ItemSeriesView AS
 SELECT
 	p.ItemID,
 	i.Name as ItemName,

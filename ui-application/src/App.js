@@ -27,9 +27,10 @@ function App() {
   const selectedBasketItems = useSelector(state => state.app.basketItems);
   
   useEffect(() => {
-    dispatch(requestSeriesData());
-  }, [selectedBasketIds,selectedBasketItems, selectedRegionId, dispatch]);
-
+    if (selectedBasketIds?.length && selectedRegionId) {
+      dispatch(requestSeriesData());
+    }
+  }, [selectedBasketIds, selectedRegionId, dispatch]);
 
   const tab = useSelector((state) => {
     return state.app.tab;
