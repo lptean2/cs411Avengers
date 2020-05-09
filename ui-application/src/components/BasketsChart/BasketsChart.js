@@ -5,16 +5,8 @@ import styles from './BasketsChart.module.css';
 import RegionSelector from "../RegionSelector";
 import {useSelector} from "react-redux";
 import moment from 'moment';
-/*
-100: {date: 200304, price: 1.3280000388622284}
-101: {date: 200305, price: 1.2880000174045563}
-102: {date: 200306, price: 1.3299999833106995}
-103: {date: 200307, price: 1.324999988079071}
-104: {date: 200308, price: 1.311000019311905}
-105: {date: 200309, price: 1.2569999694824219}
-106: {date: 200310, price: 1.2380000054836273}
+require("highcharts/modules/annotations")(Highcharts);
 
- */
 const BasketsChart = props => {
   const priceSeriesData = useSelector(state => state.data.priceSeriesData);
   const trendSeriesData = useSelector(state => state.data.trendSeriesData);
@@ -32,12 +24,27 @@ const BasketsChart = props => {
           const year = dateString.slice(0, 4);
           const month = dateString.slice(4, 6);
           const dateMoment = moment(`${year}-${Number(month) + 1}`, "YYYY-MM");
-          return [dateMoment.valueOf(), price]
+          const point = [dateMoment.valueOf(), price];
+          if (basketMetaData?.[basketId]?.MaxPrice === price) {
+            return {
+              x: point[0],
+              y: point[1],
+              id: 'max',
+            }
+          }
+          if (basketMetaData?.[basketId]?.MinPrice === price) {
+            return {
+              x: point[0],
+              y: point[1],
+              id: 'min',
+            }
+          }
+          return point;
         }),
         yAxis: 0,
       };
     });
-  }, [allBaskets, priceSeriesData]);
+  }, [allBaskets, priceSeriesData, basketMetaData]);
   const trendSeries = useMemo(() => {
     const series = [];
     const itemSet = new Set();
@@ -61,7 +68,6 @@ const BasketsChart = props => {
     });
     return series;
   }, [trendSeriesData]);
-
 
   const options = useMemo(() => {
     return {
@@ -91,6 +97,21 @@ const BasketsChart = props => {
         ...priceSeries,
         ...trendSeries,
       ],
+      annotations: [
+        {
+          labels: [
+            {
+              point: 'max',
+              text: 'Max'
+            },
+            {
+              point: 'min',
+              text: 'Min',
+              backgroundColor: 'white'
+            }
+          ]
+        }
+      ]
     }
   }, [priceSeries, trendSeries]);
 
@@ -100,7 +121,7 @@ const BasketsChart = props => {
         <RegionSelector/>
       </div>
       <HighchartsReact
-        containerProps={{ className: styles.chart }}
+        containerProps={{className: styles.chart}}
         highcharts={Highcharts}
         constructorType={'stockChart'}
         options={options}
