@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import { MdRemoveShoppingCart } from "react-icons/md";
+import {MdRemoveShoppingCart} from "react-icons/md";
 import styles from './RemoveButton.module.css';
 import {removeEditItem} from "../../../state/edit/actions";
 import {useDispatch} from "react-redux";

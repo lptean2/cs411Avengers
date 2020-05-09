@@ -8,7 +8,12 @@ import SelectedItems from "./components/SelectedItems";
 import ItemsBasket from "./components/ItemsBasket";
 import Tab from "./components/Tab";
 import {Tab as TabOptions} from "./state/app/Tab";
-import {requestAllBaskets, requestAllItems, requestSeriesData} from "./state/data/actions";
+import {
+  requestAllBaskets,
+  requestAllItems,
+  requestBasketSeriesData,
+  requestItemsSeriesData
+} from "./state/data/actions";
 import styles from './App.module.css';
 
 function App() {
@@ -24,13 +29,19 @@ function App() {
 
   const selectedBasketIds = useSelector(state => state.app.selectedBasketIds);
   const selectedRegionId = useSelector(state => state.app.selectedRegionId);
-  const selectedBasketItems = useSelector(state => state.app.basketItems);
-  
+
   useEffect(() => {
     if (selectedBasketIds?.length && selectedRegionId) {
-      dispatch(requestSeriesData());
+      dispatch(requestBasketSeriesData(selectedBasketIds, selectedRegionId));
     }
   }, [selectedBasketIds, selectedRegionId, dispatch]);
+
+  const basketItems = useSelector(state => state.app.basketItems);
+  useEffect(() => {
+    if (Object.entries(basketItems).length && selectedRegionId) {
+      dispatch(requestItemsSeriesData(basketItems, selectedRegionId));
+    }
+  }, [basketItems, selectedRegionId, dispatch]);
 
   const tab = useSelector((state) => {
     return state.app.tab;

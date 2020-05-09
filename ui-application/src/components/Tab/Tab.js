@@ -3,6 +3,7 @@ import {Tab as TabOptions} from '../../state/app/Tab';
 import {setTab} from '../../state/app/actions';
 import styles from './Tab.module.css';
 import {useDispatch} from "react-redux";
+
 const Tab = props => {
   const dispatch = useDispatch();
 

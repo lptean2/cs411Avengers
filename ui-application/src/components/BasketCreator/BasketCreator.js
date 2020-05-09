@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {requestSaveBasket, requestDeleteBasket} from "../../state/data/actions";
+import {requestDeleteBasket, requestSaveBasket} from "../../state/data/actions";
 import styles from './BasketCreator.module.css';
 import BasketSelector from "../BasketSelector";
 import {setSelectedBasketIds} from "../../state/app/actions";

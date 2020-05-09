@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import { MdAddShoppingCart } from "react-icons/md";
+import {MdAddShoppingCart} from "react-icons/md";
 import styles from './SelectButton.module.css';
 import {addEditItem} from "../../../state/edit/actions";
 import {useDispatch} from "react-redux";

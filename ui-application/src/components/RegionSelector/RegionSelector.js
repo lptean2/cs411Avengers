@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import { Multiselect } from "multiselect-react-dropdown";
+import {Multiselect} from "multiselect-react-dropdown";
 import {setRegionId} from '../../state/app/actions';
 import styles from './RegionSelector.module.css';
 

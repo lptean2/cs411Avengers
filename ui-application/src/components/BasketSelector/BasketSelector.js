@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import { Multiselect } from "multiselect-react-dropdown";
-import {setSelectedBasketIds, removeBasketItems,removeSeriesData} from '../../state/app/actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {Multiselect} from "multiselect-react-dropdown";
+import {removeBasketItems, removeSeriesData, setSelectedBasketIds} from '../../state/app/actions';
 import {Tab as TabOptions} from "../../state/app/Tab";
 import styles from "./BasketSelector.module.css";
 

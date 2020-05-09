@@ -11,7 +11,7 @@ const BasketsChart = props => {
   const priceSeriesData = useSelector(state => state.data.priceSeriesData);
   const trendSeriesData = useSelector(state => state.data.trendSeriesData);
   const basketMetaData = useSelector(state => state.data.basketMetaData);
-  const itemSeriesData = useSelector(state => state.data.itemSeriesData);
+  // const itemSeriesData = useSelector(state => state.data.itemSeriesData);
   const displayBasketBreakout = useSelector(state => state.app.displayBasketBreakout);
 
   const allBaskets = useSelector(state => state.data.allBaskets);

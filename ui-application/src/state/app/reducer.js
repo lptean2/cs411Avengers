@@ -1,4 +1,12 @@
-import {ADD_ITEM, SET_TAB, SET_BASKETS, SET_BASKET_ITEMS, SET_REGION_ID, REMOVE_BASKET_ITEMS, DISPLAY_BASKET_BREAKOUT} from "./actions";
+import {
+  ADD_ITEM,
+  DISPLAY_BASKET_BREAKOUT,
+  REMOVE_BASKET_ITEMS,
+  SET_BASKET_ITEMS,
+  SET_BASKETS,
+  SET_REGION_ID,
+  SET_TAB
+} from "./actions";
 
 import {Tab} from "./Tab";
 import {produce} from "immer";

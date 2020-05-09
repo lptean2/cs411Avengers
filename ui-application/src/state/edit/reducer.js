@@ -1,4 +1,4 @@
-import {ADD_EDIT_ITEM, UPDATE_EDIT_ITEM, DELETE_EDIT_ITEM, SET_EDIT_ITEMS} from "./actions";
+import {ADD_EDIT_ITEM, DELETE_EDIT_ITEM, SET_EDIT_ITEMS, UPDATE_EDIT_ITEM} from "./actions";
 import {produce} from "immer";
 
 const initialState = {

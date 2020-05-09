@@ -1,18 +1,12 @@
 import React, {useCallback} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {displayBasketBreakout,removeSeriesData} from '../../state/app/actions';
-import {requestSeriesData} from "../../state/data/actions";
-import styles from "./BasketBreakoutToggle.module.css";
-
+import {useDispatch, useSelector} from 'react-redux';
+import {displayBasketBreakout, removeSeriesData} from '../../state/app/actions';
+import {requestBasketSeriesData} from "../../state/data/actions";
 
 
 const BasketBreakoutToggle = props => {
   const dispatch = useDispatch();
-  const selectedBasketIds = useSelector(state => state.app.selectedBasketIds);
-  const selectedRegionId = useSelector(state => state.app.selectedRegionId);
   const isChecked = useSelector(state => state.app.displayBasketBreakout);
-  const basketBreakoutToggle = useSelector(state => state.displayBasketBreakout);
-  const selectedBasketItems = useSelector(state => state.app.basketItems);
   const label = "Display Series by Item";
 
   const handleChange = useCallback((e) => {
@@ -21,10 +15,10 @@ const BasketBreakoutToggle = props => {
     dispatch(removeSeriesData());
     //todo remove current series data
 
-    dispatch(requestSeriesData());
+    dispatch(requestBasketSeriesData());
     //todo query series data again
 
-  }, [isChecked, dispatch]);
+  }, [dispatch]);
   return(
     <div>
       <label>
