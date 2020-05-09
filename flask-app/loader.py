@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import absolute_import
 from lib.dbo.DbObjects import Item, Region, Price
 import six.moves.urllib.request, six.moves.urllib.error, six.moves.urllib.parse
