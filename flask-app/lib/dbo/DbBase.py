@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
-#import pymysql
-import mysql.connector
+import pymysql
+#import mysql.connector
 import json
 import os
 
@@ -16,14 +16,14 @@ db_name = os.environ.get('FLASK_DB_NAME') or 'avengers1_cpi_sh'
 if ( db_user == 'python' and db_pw == 'password123'):
     db_pw = ''
 
-db = mysql.connector.connect(
-    user=db_user,
-    database=db_name,
-    password=db_pw,
-    host=db_host
-)
+#db = mysql.connector.connect(
+#    user=db_user,
+#    database=db_name,
+#    password=db_pw,
+#    host=db_host
+#)
 
-#db = pymysql.connect(db_host,db_user,db_pw,db_name )
+db = pymysql.connect(db_host,db_user,db_pw,db_name )
 #db = MySQLdb.connect("localhost","python","","cpidata" )
 
 class DbBase:
@@ -72,7 +72,7 @@ class DbBase:
         print('Running sql: ' + select_sql)
         print('binds: ' + ','.join(binds))
 
-        cursor = db.cursor(prepared=True)
+        cursor = db.cursor()
         cursor.execute(
             select_sql,
             binds
