@@ -8,7 +8,7 @@ import SelectedItems from "./components/SelectedItems";
 import ItemsBasket from "./components/ItemsBasket";
 import Tab from "./components/Tab";
 import {Tab as TabOptions} from "./state/app/Tab";
-import {ADD_SERIES_DATA, requestAllBaskets, requestAllItems} from "./state/data/actions";
+import {requestChartData, requestAllBaskets, requestAllItems} from "./state/data/actions";
 import styles from './App.module.css';
 
 function App() {
@@ -26,17 +26,7 @@ function App() {
   const selectedRegionId = useSelector(state => state.app.selectedRegionId);
   useEffect(() => {
     if (selectedBasketIds?.length && selectedRegionId) {
-      selectedBasketIds.forEach(basketId => {
-        window.fetch(`http://avengers1.web.illinois.edu/cpi_api/series?BasketID=${basketId}&RegionID=${selectedRegionId}`)
-          .then(res => res.json())
-          .then(json => {
-            dispatch({
-              type: ADD_SERIES_DATA,
-              basketId,
-              seriesData: json,
-            })
-          });
-      });
+      selectedBasketIds.forEach(basketId => dispatch(requestChartData(basketId, selectedRegionId)));
     }
   }, [selectedBasketIds, selectedRegionId, dispatch]);
 

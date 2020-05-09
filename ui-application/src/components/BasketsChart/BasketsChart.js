@@ -16,13 +16,13 @@ import moment from 'moment';
 
  */
 const BasketsChart = props => {
-  const allSeriesData = useSelector(state => state.data.seriesData);
+  const priceSeriesData = useSelector(state => state.data.priceSeriesData);
   const allBaskets = useSelector(state => state.data.allBaskets);
   const region = useSelector(state => state.app.selectedRegionId);
 
   const options = useMemo(() => {
     const basketNames = [];
-    const series =  Object.entries(allSeriesData).map(([basketId, seriesData]) => {
+    const series =  Object.entries(priceSeriesData).map(([basketId, seriesData]) => {
       const basketObject = allBaskets.find(b => String(b.ID) === basketId) ?? {};
       const label = basketObject?.Name ?? basketId;
       basketNames.push(label);
@@ -49,7 +49,7 @@ const BasketsChart = props => {
       },
       series,
     }
-  }, [allSeriesData, allBaskets]);
+  }, [priceSeriesData, allBaskets]);
 
   return (
     <div className={styles.root}>
