@@ -172,7 +172,6 @@ export const requestItemsSeriesData = (basketItems, regionId) => {
   return async (dispatch) => {
     const itemIdSet = new Set();
     const basketItemEntries = Object.entries(basketItems);
-    console.log("basketItemEntries", basketItemEntries);
     if (basketItemEntries.length) {
       basketItemEntries.forEach(([basketId, items]) => {
         items.forEach(item => {

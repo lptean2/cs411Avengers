@@ -10,7 +10,6 @@ const Tab = props => {
   const onClickView = useCallback((e) => {
     dispatch(setTab(TabOptions.EXPLORER));
     document.getElementById("EDIT").className=styles.button;
-    console.log(e.target);
     e.target.className=styles.selectedButton;
   }, [dispatch]);
 
@@ -18,8 +17,7 @@ const Tab = props => {
     dispatch(setTab(TabOptions.EDIT));
     document.getElementById("EXPLORER").className=styles.button;
     e.target.className=styles.selectedButton;
-    console.log(e.target);
-  }, [dispatch]); 
+  }, [dispatch]);
 
   return (
     <div className={styles.root}>

@@ -18,7 +18,6 @@ const BasketsChart = props => {
 
   const allBaskets = useSelector(state => state.data.allBaskets);
 
-  console.log("itemSeriesData", itemSeriesData);
   const priceSeries = useMemo(() => {
     if (displayBasketBreakout) {
       return Object.entries(itemSeriesData).map(([itemId, seriesData]) => {
