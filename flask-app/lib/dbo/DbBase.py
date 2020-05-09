@@ -112,8 +112,8 @@ class DbBase:
             ' VALUES (' + ','.join(insert_values) + ')' + \
             ' ON DUPLICATE KEY UPDATE  ' + ','.join(updates)
 
-
-        cursor = self.executeQuery(
+        cursor = db.cursor()
+        cursor.execute(
             update_statement,
             insert_binds + update_binds
             )
@@ -187,7 +187,8 @@ class DbBase:
         delete_statement = 'DELETE FROM ' + self.tableName() + \
             ' WHERE ' + ' AND '.join(delete_wheres)
 
-        cursor = self.executeQuery(
+        cursor = db.cursor()
+        cursor.execute(
             delete_statement,
             delete_values
             )
@@ -217,7 +218,10 @@ class DbBase:
 
     @staticmethod
     def runSQL(query, binds, opts={}):
-        cursor = self.executeQuery(
+        print('Running sql: ' + query)
+        print('binds: ' + ','.join(binds))
+        cursor = db.cursor()
+        cursor.execute(
             query,
             binds
             )

@@ -123,6 +123,7 @@ def getItems(args):
     return_array = []
 
     for item in items:
+        print(item.toDict())
         return_array.append(item.toDict())
 
     return json.dumps(return_array,sort_keys=True, indent=4)
