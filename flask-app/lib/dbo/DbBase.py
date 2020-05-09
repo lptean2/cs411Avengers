@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
 import pymysql
-#import mysql.connector
+import mysql.connector
 import json
 import os
 
@@ -16,12 +16,12 @@ db_name = os.environ.get('FLASK_DB_NAME') or 'avengers1_cpi_sh'
 if ( db_user == 'python' and db_pw == 'password123'):
     db_pw = ''
 
-#db = mysql.connector.connect(
-#    user=db_user,
-#    database=db_name,
-#    password=db_pw,
-#    host=db_host
-#)
+db_batch = mysql.connector.connect(
+   user=db_user,
+   database=db_name,
+   password=db_pw,
+   host=db_host
+)
 
 db = pymysql.connect(db_host,db_user,db_pw,db_name )
 #db = MySQLdb.connect("localhost","python","","cpidata" )
@@ -112,15 +112,15 @@ class DbBase:
             ' VALUES (' + ','.join(insert_values) + ')' + \
             ' ON DUPLICATE KEY UPDATE  ' + ','.join(updates)
 
-        cursor = db.cursor()
-        cursor.execute(
+        # cursor = db.cursor()
+        cursor = self.executeQuery(
             update_statement,
             insert_binds + update_binds
             )
 
         # If it is a new row, lastrowid will be populated, if not, use the Item
         new_id = cursor.lastrowid
-        db.commit()
+        db_batch.commit()
 
         # If we are creating the DB row, load into an object
         if (opts.get('return_self')):
@@ -136,14 +136,14 @@ class DbBase:
             return self.cached_cursors[query]
         else:
             print ("Preparing new cursor")
-            cursor = db.cursor(prepared=True)
+            cursor = db_batch.cursor(prepared=True)
             self.cached_cursors[query] = cursor
             return cursor
 
 
     def refreshCursor(self, query):
         print ("Re-Preparing cursor")
-        cursor = db.cursor(prepared=True)
+        cursor = db_batch.cursor(prepared=True)
         self.cached_cursors[query] = cursor
         return cursor
 
