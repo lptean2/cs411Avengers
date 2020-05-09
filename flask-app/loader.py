@@ -13,7 +13,7 @@ def addPrice(series_id, year, period, value):
     date = year + str(mon).zfill(2)
 
     price = Price({'ItemID':item_id, 'RegionID':area_id, 'PriceDate':date, 'Price':value})
-    price.save()
+    price.save({'use_cached': True})
 
 
 def loadPrice(price_url):
@@ -50,7 +50,7 @@ for line in data: # files are iterable
     if (line_count > 0):
         terms = line.decode().split("\t",2)
         item = Item({'ID' : terms[0].strip(), 'Name' : terms[1].strip()})
-        item.save()
+        item.save({'use_cached': True})
 
     line_count = line_count + 1
 
@@ -63,7 +63,7 @@ for line in data: # files are iterable
     if (line_count > 0):
         terms = line.decode().split("\t",2)
         region = Region({'ID' : terms[0].strip(), 'Name' : terms[1].strip(), 'ParentRegion' : 0})
-        region.save()
+        region.save({'use_cached': True})
 
     line_count = line_count + 1
 
