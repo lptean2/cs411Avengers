@@ -35,9 +35,9 @@ export const removeBasketItems = (basketId) => ({
   basketId,
 });
 
-export const DISPLAY_BASKET_BREAKOUT = 'app/DISPLAY_BASKET_BREAKOUT';
-export const displayBasketBreakout = () => ({
-	type: DISPLAY_BASKET_BREAKOUT,
+export const TOGGLE_BASKET_BREAKOUT = 'app/TOGGLE_BASKET_BREAKOUT';
+export const toggleBasketBreakout = () => ({
+	type: TOGGLE_BASKET_BREAKOUT,
 });
 
 export const REMOVE_SERIES_DATA = 'app/REMOVE_SERIES_DATA';

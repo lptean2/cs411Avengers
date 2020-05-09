@@ -1,6 +1,6 @@
 import {
   ADD_ITEM,
-  DISPLAY_BASKET_BREAKOUT,
+  TOGGLE_BASKET_BREAKOUT,
   REMOVE_BASKET_ITEMS,
   SET_BASKET_ITEMS,
   SET_BASKETS,
@@ -44,7 +44,7 @@ const appReducer = produce((state = initialState, action) => {
     case REMOVE_BASKET_ITEMS:
       delete state.basketItems[action.basketId];
       break;
-    case DISPLAY_BASKET_BREAKOUT:
+    case TOGGLE_BASKET_BREAKOUT:
       state.displayBasketBreakout = !state.displayBasketBreakout;
       break;
     default:
