@@ -23,7 +23,7 @@ const BasketsChart = props => {
       return Object.entries(itemSeriesData).map(([itemId, seriesData]) => {
         const item = allItems?.find(item => item.ID === String(itemId)) ?? {};
         return {
-          name: `${item.SearchTerm ?? itemId} Price`,
+          name: `${item.SearchTerm ?? item.Name ?? itemId} Price`,
           data: seriesData.map(({Price, PriceDate}) => {
             const dateString = String(PriceDate);
             const year = dateString.slice(0, 4);
