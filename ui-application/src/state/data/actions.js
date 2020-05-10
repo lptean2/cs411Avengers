@@ -145,15 +145,16 @@ export const REQUEST_ITEM_SERIES_DATA = 'data/REQUEST_ITEM_SERIES_DATA';
 export const RECEIVE_ITEM_SERIES_DATA = 'data/RECEIVE_ITEM_SERIES_DATA';
 export const requestItemSeriesData = (itemId, regionId) => {
   return async (dispatch) => {
-    dispatch({type: REQUEST_ITEM_SERIES_DATA, itemId});
-    const result = await window.fetch(`http://avengers1.web.illinois.edu/cpi_api/series?ItemID=${itemId}&RegionID=${regionId}`);
-    const json = await result.json();
-    dispatch({
-      type: RECEIVE_ITEM_SERIES_DATA,
-      itemId: itemId,
-      itemSeriesData: json,
-    });
-
+    if (itemId !== undefined && regionId !== undefined) {
+      dispatch({type: REQUEST_ITEM_SERIES_DATA, itemId});
+      const result = await window.fetch(`http://avengers1.web.illinois.edu/cpi_api/series?ItemID=${itemId}&RegionID=${regionId}`);
+      const json = await result.json();
+      dispatch({
+        type: RECEIVE_ITEM_SERIES_DATA,
+        itemId: itemId,
+        itemSeriesData: json,
+      });
+    }
   }
 };
 
