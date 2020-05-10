@@ -39,6 +39,7 @@ const selectorStyle = {
     },
   searchBox: {
     "fontSize": "10px",
+    background:"white",
     "maxHeight": "10px"
   },
 };

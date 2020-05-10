@@ -28,7 +28,18 @@ const BasketSelector = props => {
     dispatch(removeBasketItems(removedBasket.ID));
     dispatch(removeSeriesData());
   };
-
+  const selectorStyle = {
+    multiselectContainer: {
+      },
+    searchBox: {
+      "fontSize": "10px",
+      background:"white",
+      height:props.height
+    },
+    chips:{
+      "borderRadius": "4px",
+    },
+  };
   return (
     <div>
       <div className={styles.label}>Available Baskets:</div>
@@ -41,6 +52,7 @@ const BasketSelector = props => {
         singleSelect={tab===TabOptions.EDIT}
         onSelect={handleSelect}
         onRemove={handleRemove}
+        style={selectorStyle}
       />
     </div>
   )

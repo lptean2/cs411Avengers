@@ -6,7 +6,7 @@
 .selectedButton {
     background: none;
     border: 0px solid #b1b1b1;
-    padding: 10px 15px;
+    padding: 11px 15px;
     border-radius: 0px;
     cursor: pointer;
     margin: 0px;
@@ -14,11 +14,13 @@
     outline:none;
     float:left;
     background-color:#555;
+    height:37px;
+    transition-duration: 0.4s;
 }
 .button {
     background: none;
     border: 0px solid #b1b1b1;
-    padding: 10px 15px;
+    padding: 11px 15px;
     border-radius: 0px;
     cursor: pointer;
     margin: 0px;
@@ -26,15 +28,22 @@
     outline:none;
     float:left;
     background-color:#333;
+    height:37px;
+    transition-duration: 0.4s;
 }
-.title {
+.nav {
 	color:white;
 	font-family:Times, Times New Roman, serif;
 	margin:0px;
 	text-align:center;
+    background-color:#333;
+    height:37px;
 	width:100%;
 	font-size:32px;
 
+}
+.title {
+	margin-left:-120px;
 }
 .button:hover {
     background: #b1b1b1;

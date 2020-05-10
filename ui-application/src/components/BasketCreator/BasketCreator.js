@@ -34,28 +34,35 @@ const BasketCreator = props => {
 
   return (
     <div className={styles.root}>
+    <div className={styles.section}>
       <div>
-        <BasketSelector/>
+        <BasketSelector height="20px"/>
       </div>
       <div>
-        <button onClick={handleSave}>
+        <button className={styles.button} onClick={handleSave}>
           Save
         </button>
-        <button onClick={handleDelete}>
+        <button className={styles.button} onClick={handleDelete}>
           Delete
         </button>
       </div>
       <div className={styles.divider}/>
-      <div>Create New Basket:</div>
+    </div>
+    <div className={styles.section}>
+      <div className={styles.label}>Create New Basket:
+      <br/>
       <input
+        className={styles.input}
         type="text"
         value={name}
         placeholder={"New basket name..."}
         onChange={handleChange}
-      />
-      <button onClick={handleSaveAs}>
+      /></div>
+      
+      <button className={styles.button} onClick={handleSaveAs}>
         Save As
       </button>
+    </div>
     </div>
   )
 };
