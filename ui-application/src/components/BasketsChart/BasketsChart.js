@@ -65,7 +65,7 @@ const BasketsChart = props => {
         };
       });
     }
-  }, [allBaskets, priceSeriesData, basketMetaData, displayBasketBreakout]);
+  }, [allBaskets, priceSeriesData, basketMetaData, displayBasketBreakout, allItems, itemSeriesData]);
   const trendSeries = useMemo(() => {
     const series = [];
     const itemSet = new Set();

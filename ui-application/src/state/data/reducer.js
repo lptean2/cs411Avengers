@@ -15,7 +15,6 @@ import {
   REQUEST_DELETE_BASKET,
   REQUEST_ITEM_SERIES_DATA,
   REQUEST_PRICE_SERIES_DATA,
-  RESET_SERIES_DATA,
 } from "./actions";
 import {produce} from 'immer';
 import {REMOVE_BASKET_ITEMS, REMOVE_SERIES_DATA, SET_TAB} from "../app/actions";
