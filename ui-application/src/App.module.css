@@ -1,5 +1,5 @@
 .root {
-  height: 90vh;
+  height: 97vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -7,7 +7,7 @@
   background-color:#666;
 }
 .header {
-  align-items:left;
+  align-items: flex-start;
 }
 .title {
 

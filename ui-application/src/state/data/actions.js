@@ -125,7 +125,7 @@ export const requestBasketItems = (basketId) => {
 };
 
 export const requestDeleteBasket = (basketId) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     dispatch({type: REQUEST_DELETE_BASKET});
     await window.fetch(
       'http://avengers1.web.illinois.edu/cpi_api/basket/' + basketId,
@@ -183,12 +183,4 @@ export const requestItemsSeriesData = (basketItems, regionId) => {
       });
     }
   }
-
 };
-
-export const RESET_SERIES_DATA = 'data/RESET_SERIES_DATA';
-export const resetSeriesData = () => {
-	return async (dispatch) => {
-	  dispatch({type: RESET_SERIES_DATA});
-	}
-}
